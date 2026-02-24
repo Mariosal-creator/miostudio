@@ -48,6 +48,12 @@ body {
     animation: scrollGallery 30s linear infinite;
   }
 
+  @media (max-width: 639px) {
+    .animate-scroll-gallery {
+      animation: none;
+    }
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;

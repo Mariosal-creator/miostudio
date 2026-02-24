@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Moi Studio - Producción Audiovisual Profesional",
   description: "Producción audiovisual, filmmaking y contenido visual de clase mundial. Transformamos tus ideas en historias impactantes.",
+  icons: {
+    icon: "/favicon.ico?v=20260224",
+    shortcut: "/favicon.ico?v=20260224",
+    apple: "/favicon.ico?v=20260224",
+  },
 };
 
 export default function RootLayout({

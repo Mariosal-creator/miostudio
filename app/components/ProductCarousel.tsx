@@ -88,8 +88,8 @@ export default function ProductCarousel() {
       </div>
 
       {/* Carousel */}
-      <div className="relative w-full overflow-hidden bg-white">
-        <div className="animate-scroll-gallery flex gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
+      <div className="relative w-full overflow-x-auto sm:overflow-hidden bg-white touch-pan-x">
+        <div className="animate-scroll-gallery flex w-max gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
           {products.map((product) => (
             <div
               key={product.id}
