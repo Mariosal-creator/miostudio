@@ -1,0 +1,29 @@
+import CategoryBanner from "@/app/components/CategoryBanner";
+import CategoryIntro from "@/app/components/CategoryIntro";
+export default function SelfServicesPage() {
+  return (
+    <div className="min-h-screen bg-white">
+      <CategoryBanner
+        title="Self Services"
+        breadcrumb={["Inicio","Productos","Self Services"]}
+        backgroundVideo="/fuego.mp4"
+        messages={[
+          "Fabricación a medida en acero inoxidable",
+          "Diseño, instalación y soporte profesional",
+          "Eficiencia y durabilidad para tu negocio",
+          "Rendimiento confiable en alto volumen",
+        ]}
+        intervalMs={3500}
+      />
+      <div className="px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+      <div className="mx-auto max-w-7xl">
+          <CategoryIntro
+            title="Self Services"
+            description="Líneas de autoservicio robustas y seguras, con acabado higiénico y configuración modular para tu operación."
+            primaryCtaHref="https://wa.me/593963163035?text=Hola%20Metalgas%20%2D%20quisiera%20informaci%C3%B3n%20sobre%20self%20services"
+          />
+      </div>
+      </div>
+    </div>
+  );
+}
