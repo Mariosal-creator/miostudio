@@ -136,7 +136,7 @@ export default function GlobalPreloader() {
   }
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-background text-foreground animate-fadeIn">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black text-white animate-fadeIn">
       <div className="flex w-[220px] flex-col items-center justify-center gap-4 text-center">
         <div className="preloader-logo-stage">
           <div className="camera-icon" aria-hidden="true">
