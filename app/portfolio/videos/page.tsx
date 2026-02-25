@@ -18,6 +18,8 @@ const videosHorizontales: VideoItem[] = [
   { id: "HYpSl1ewrXo", title: "Proyecto Horizontal 6", descripcion: "Video publicitario" },
   { id: "L1gUbHzWxG8", title: "Proyecto Horizontal 7", descripcion: "Boda" },
   { id: "OWoBnyE2U9w", title: "Proyecto Horizontal 8", descripcion: "Video publicitario" },
+  { id: "T5wdVQeHQHM", title: "Proyecto Horizontal 9", descripcion: "Cover musical" },
+  { id: "WqQ1Do3Nk_Y", title: "Proyecto Horizontal 10", descripcion: "Video promocional" },
 ];
 
 const videosVerticales: VideoItem[] = [
