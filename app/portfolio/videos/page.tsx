@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 
 type VideoItem = {
   id: string;
@@ -44,7 +44,7 @@ const videosVerticales: VideoItem[] = [
   { id: "Hwde8ldXyJ8", title: "Reel 18", descripcion: "Anuncio Vertical" },
 ];
 
-export default function PortfolioVideosPage() {
+function PortfolioVideosContent() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -188,5 +188,13 @@ export default function PortfolioVideosPage() {
         </div>
       )}
     </section>
+  );
+}
+
+export default function PortfolioVideosPage() {
+  return (
+    <Suspense fallback={<section className="min-h-screen bg-gradient-to-b from-gray-900 to-black" />}>
+      <PortfolioVideosContent />
+    </Suspense>
   );
 }
