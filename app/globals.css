@@ -48,6 +48,31 @@ body {
     animation: scrollGallery 30s linear infinite;
   }
 
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .search-results-panel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .search-results-panel::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none;
+    background: transparent;
+  }
+
+  .search-results-panel::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
   @media (max-width: 639px) {
     .animate-scroll-gallery {
       animation: none;

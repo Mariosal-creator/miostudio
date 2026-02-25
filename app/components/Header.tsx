@@ -4,6 +4,44 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { searchItems } from "../data/searchProducts";
+
+const normalizeText = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+
+const normalizeToken = (token: string) => {
+  if (token.endsWith("es") && token.length > 3) {
+    return token.slice(0, -2);
+  }
+
+  if (token.endsWith("s") && token.length > 2) {
+    return token.slice(0, -1);
+  }
+
+  return token;
+};
+
+const buildQueryTokens = (rawQuery: string) => {
+  const normalized = normalizeText(rawQuery);
+
+  if (!normalized) {
+    return [];
+  }
+
+  const rawTokens = normalized.split(/\s+/).filter(Boolean);
+  const tokens = new Set<string>();
+
+  rawTokens.forEach((token) => {
+    tokens.add(token);
+    tokens.add(normalizeToken(token));
+  });
+
+  return Array.from(tokens);
+};
 
 const navLinks = [
   { label: "Inicio", href: "/" },
@@ -17,6 +55,19 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
+
+  const queryTokens = buildQueryTokens(query);
+  const hasQuery = queryTokens.length > 0;
+
+  const filteredResults = hasQuery
+    ? searchItems
+        .filter((item) => {
+          const normalizedKeywords = item.keywords?.map((keyword) => normalizeText(keyword)) ?? [];
+          const haystack = `${normalizeText(item.name)} ${normalizedKeywords.join(" ")}`;
+
+          return queryTokens.every((token) => haystack.includes(token));
+        })
+    : [];
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-black/90 backdrop-blur text-white">
@@ -61,7 +112,7 @@ export default function Header() {
         <div className="flex items-center gap-3 relative">
           <button
             onClick={() => setSearchOpen((v) => !v)}
-            className="hidden sm:inline-flex items-center rounded-full border border-white/20 px-3 py-2 text-sm font-medium text-white transition hover:border-white/30 hover:bg-white/10"
+            className="inline-flex items-center rounded-full border border-white/20 px-3 py-2 text-sm font-medium text-white transition hover:border-white/30 hover:bg-white/10"
             aria-expanded={searchOpen}
             aria-controls="search-bar"
           >
@@ -101,6 +152,42 @@ export default function Header() {
                 autoFocus
                 className="w-full rounded-xl border border-white/20 bg-black px-3 py-2 text-sm text-white outline-none ring-2 ring-transparent transition focus:border-white/40 focus:ring-white/15"
               />
+
+              {hasQuery && (
+                <div className="search-results-panel no-scrollbar mt-3 max-h-[248px] overflow-y-auto touch-pan-y rounded-xl border border-white/10 bg-black/40">
+                  {filteredResults.length > 0 ? (
+                    <ul className="divide-y divide-white/10">
+                      {filteredResults.map((item) => (
+                        <li key={`${item.href}-${item.name}`}>
+                          <Link
+                            href={item.href}
+                            onClick={() => {
+                              setSearchOpen(false);
+                              setQuery("");
+                            }}
+                            className="flex items-center gap-3 px-3 py-2 transition hover:bg-white/10"
+                          >
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              width={44}
+                              height={44}
+                              className="h-11 w-11 rounded-md object-cover"
+                            />
+                            <span className="text-sm font-medium text-white">
+                              {item.name}
+                            </span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="px-3 py-3 text-sm text-gray-300">
+                      No se encontraron resultados.
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
