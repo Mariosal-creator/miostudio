@@ -23,7 +23,7 @@ const integrantes: Miembro[] = [
   },
   {
     id: "obed",
-    nombre: "Obed Briseño",
+    nombre: "Obed Briceño",
     cargo: "Jefe de Fotografía",
     descripcion:
       "Dirige la propuesta visual, iluminación y encuadre; construye una estética cinematográfica sólida que fortalece el mensaje de cada proyecto.",
