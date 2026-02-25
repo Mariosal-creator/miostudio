@@ -49,11 +49,19 @@ function PortfolioVideosContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [modalVideo, setModalVideo] = useState<string | null>(null);
+  const [esMobile, setEsMobile] = useState(false);
 
   const validVideoIds = useMemo(
     () => new Set([...videosHorizontales, ...videosVerticales].map((video) => video.id)),
     []
   );
+
+  const videosVerticalesIds = useMemo(
+    () => new Set(videosVerticales.map((video) => video.id)),
+    []
+  );
+
+  const modalEsVertical = modalVideo ? videosVerticalesIds.has(modalVideo) : false;
 
   useEffect(() => {
     const selectedVideo = searchParams.get("video");
@@ -71,6 +79,18 @@ function PortfolioVideosContent() {
   useEffect(() => {
     return () => {
       document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const actualizarViewport = () => setEsMobile(mediaQuery.matches);
+
+    actualizarViewport();
+    mediaQuery.addEventListener("change", actualizarViewport);
+
+    return () => {
+      mediaQuery.removeEventListener("change", actualizarViewport);
     };
   }, []);
 
@@ -164,7 +184,20 @@ function PortfolioVideosContent() {
           onClick={cerrarModal}
         >
           <div
-            className="relative aspect-video w-full max-w-5xl overflow-hidden rounded-xl bg-black shadow-2xl"
+            className="relative w-full max-w-5xl overflow-hidden rounded-xl bg-black shadow-2xl md:aspect-video"
+            style={
+              esMobile
+                ? modalEsVertical
+                  ? {
+                      width: "min(100vw, calc(100dvh * 9 / 16))",
+                      height: "min(100dvh, calc(100vw * 16 / 9))",
+                    }
+                  : {
+                      width: "min(100vw, calc(100dvh * 16 / 9))",
+                      height: "min(100dvh, calc(100vw * 9 / 16))",
+                    }
+                : undefined
+            }
             onClick={(e) => e.stopPropagation()}
           >
             <button
