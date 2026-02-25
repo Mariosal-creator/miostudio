@@ -36,7 +36,6 @@ const buildQueryTokens = (rawQuery: string) => {
   const tokens = new Set<string>();
 
   rawTokens.forEach((token) => {
-    tokens.add(token);
     tokens.add(normalizeToken(token));
   });
 
@@ -58,15 +57,31 @@ export default function Header() {
 
   const queryTokens = buildQueryTokens(query);
   const hasQuery = queryTokens.length > 0;
+  const normalizedQuery = normalizeText(query);
 
   const filteredResults = hasQuery
     ? searchItems
-        .filter((item) => {
+        .map((item) => {
           const normalizedKeywords = item.keywords?.map((keyword) => normalizeText(keyword)) ?? [];
           const haystack = `${normalizeText(item.name)} ${normalizedKeywords.join(" ")}`;
 
-          return queryTokens.every((token) => haystack.includes(token));
+          let score = 0;
+
+          if (haystack.includes(normalizedQuery)) {
+            score += 6;
+          }
+
+          queryTokens.forEach((token) => {
+            if (haystack.includes(token)) {
+              score += 2;
+            }
+          });
+
+          return { item, score };
         })
+        .filter((entry) => entry.score > 0)
+        .sort((entryA, entryB) => entryB.score - entryA.score)
+        .map((entry) => entry.item)
     : [];
 
   return (
