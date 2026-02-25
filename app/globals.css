@@ -66,4 +66,22 @@ body {
   .animate-fadeIn {
     animation: fadeIn 0.3s ease-in-out;
   }
+
+  @keyframes logoFloatPulse {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+      opacity: 0.9;
+    }
+    50% {
+      transform: translateY(-6px) scale(1.05);
+      opacity: 1;
+    }
+  }
+
+  .animate-logo-float-pulse {
+    animation: logoFloatPulse 1.8s ease-in-out infinite;
+    transform-origin: center;
+    will-change: transform, opacity;
+  }
 }
