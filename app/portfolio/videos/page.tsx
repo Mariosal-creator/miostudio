@@ -10,14 +10,14 @@ type VideoItem = {
 };
 
 const videosHorizontales: VideoItem[] = [
-  { id: "-rpHP2Q6Tow", title: "Proyecto Horizontal 1", descripcion: "Video corporativo" },
-  { id: "QwVjREkYcBs", title: "Proyecto Horizontal 2", descripcion: "Video publicitario" },
-  { id: "dE0CtdinFQ0", title: "Proyecto Horizontal 3", descripcion: "Documental" },
-  { id: "mnz7tJwKw1M", title: "Proyecto Horizontal 4", descripcion: "Producción audiovisual" },
-  { id: "55yTzvAzzlk", title: "Proyecto Horizontal 5", descripcion: "Video promocional" },
-  { id: "HYpSl1ewrXo", title: "Proyecto Horizontal 6", descripcion: "Contenido corporativo" },
-  { id: "L1gUbHzWxG8", title: "Proyecto Horizontal 7", descripcion: "Cobertura comercial" },
-  { id: "OWoBnyE2U9w", title: "Proyecto Horizontal 8", descripcion: "Producción de marca" },
+  { id: "-rpHP2Q6Tow", title: "Proyecto Horizontal 1", descripcion: "Curso" },
+  { id: "QwVjREkYcBs", title: "Proyecto Horizontal 2", descripcion: "Curso" },
+  { id: "dE0CtdinFQ0", title: "Proyecto Horizontal 3", descripcion: "Video publicitario" },
+  { id: "mnz7tJwKw1M", title: "Proyecto Horizontal 4", descripcion: "Cover musical" },
+  { id: "55yTzvAzzlk", title: "Proyecto Horizontal 5", descripcion: "Podcast" },
+  { id: "HYpSl1ewrXo", title: "Proyecto Horizontal 6", descripcion: "Video publicitario" },
+  { id: "L1gUbHzWxG8", title: "Proyecto Horizontal 7", descripcion: "Boda" },
+  { id: "OWoBnyE2U9w", title: "Proyecto Horizontal 8", descripcion: "Video publicitario" },
 ];
 
 const videosVerticales: VideoItem[] = [
