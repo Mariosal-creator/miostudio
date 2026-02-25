@@ -6,21 +6,21 @@ const categorias = [
     descripcion:
       "Producción de videos horizontales y verticales para marcas, campañas y contenido digital.",
     href: "/portfolio/videos",
-    miniatura: "/slides/slide1.jpg",
+    miniatura: "/categoriaserv/videos.jpg",
   },
   {
     titulo: "Fotografía",
     descripcion:
       "Sesiones comerciales, producto y cobertura visual para reforzar identidad y posicionamiento.",
     href: "/portfolio/fotografia",
-    miniatura: "/slides/slide2.jpg",
+    miniatura: "/categoriaserv/fotografia.jpg",
   },
   {
     titulo: "Stream o Live",
     descripcion:
       "Transmisiones en vivo con dirección técnica, realización multicámara y soporte en tiempo real.",
     href: "/portfolio/stream-live",
-    miniatura: "/slides/slide3.jpg",
+    miniatura: "/categoriaserv/stream-live.jpg",
   },
 ];
 
