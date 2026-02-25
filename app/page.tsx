@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Header from "./components/Header";
 import HeroSlider from "./components/HeroSlider";
-import ProductCarousel from "./components/ProductCarousel";
+import ServicesCarousel from "./components/ServicesCarousel";
 import TestimonialsSection from "./components/TestimonialsSection";
 import Footer from "./components/Footer";
 
@@ -95,7 +95,7 @@ export default function Home() {
         </div>
       )}
 
-      <ProductCarousel />
+      <ServicesCarousel />
       <TestimonialsSection />
       <Footer />
     </>

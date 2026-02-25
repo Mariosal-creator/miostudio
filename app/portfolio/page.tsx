@@ -11,7 +11,7 @@ const categorias = [
   {
     titulo: "Fotografía",
     descripcion:
-      "Sesiones comerciales, producto y cobertura visual para reforzar identidad y posicionamiento.",
+      "Sesiones comerciales, branding y cobertura visual para reforzar identidad y posicionamiento.",
     href: "/portfolio/fotografia",
     miniatura: "/categoriaserv/fotografia.jpg",
   },

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const trabajosFotografia = [
   {
-    titulo: "Fotografía de Producto",
+    titulo: "Fotografía Comercial",
     detalle:
       "Sesiones para catálogos físicos y digitales con control de iluminación, fondo y estilo visual de marca.",
   },

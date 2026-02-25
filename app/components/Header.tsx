@@ -4,7 +4,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { searchItems } from "../data/searchProducts";
+import { searchItems } from "../data/searchCatalog";
 
 const normalizeText = (value: string) =>
   value
