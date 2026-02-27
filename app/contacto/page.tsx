@@ -30,7 +30,7 @@ export default function ContactoPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+        <div className="pointer-events-none absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
           <div className="text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
@@ -55,7 +55,7 @@ export default function ContactoPage() {
               className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${red.color} ${red.hoverColor} p-8 sm:p-10 lg:p-12 transition-all duration-500 hover:scale-105 hover:shadow-2xl transform`}
             >
               {/* Efecto de brillo */}
-              <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all duration-500" />
+              <div className="pointer-events-none absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all duration-500" />
               
               {/* Contenido */}
               <div className="relative z-10">
@@ -82,7 +82,7 @@ export default function ContactoPage() {
               </div>
 
               {/* Decoración de fondo */}
-              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
+              <div className="pointer-events-none absolute -bottom-8 -right-8 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
             </a>
           ))}
         </div>

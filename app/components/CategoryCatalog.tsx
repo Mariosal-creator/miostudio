@@ -37,7 +37,7 @@ export default function CategoryCatalog({ items }: Props) {
                   className="object-cover"
                   priority={false}
                 />
-                <div className="absolute inset-0 ring-0 group-hover:ring-2 ring-purple-500/60 transition" />
+                <div className="pointer-events-none absolute inset-0 ring-0 group-hover:ring-2 ring-purple-500/60 transition" />
               </div>
               <div className="p-4">
                 <h4 className="text-base font-semibold text-gray-900">{p.title}</h4>

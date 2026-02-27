@@ -29,7 +29,7 @@ export default function Home() {
       <section className="py-12 md:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-black to-gray-900">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center mb-6 md:mb-8 lg:mb-12 px-4">
-            Nuestro Editor
+            Set de grabación completo
           </h2>
           
           <div className="relative max-w-4xl mx-auto">
@@ -38,11 +38,11 @@ export default function Home() {
               className="group relative aspect-video rounded-lg md:rounded-xl lg:rounded-2xl overflow-hidden cursor-pointer border-2 border-[#f20c0c]/30 hover:border-[#f20c0c] transition-all duration-300 shadow-xl hover:shadow-2xl"
             >
               <img 
-                src="https://img.youtube.com/vi/AL3q-nDDprA/maxresdefault.jpg"
+                src="https://img.youtube.com/vi/PGpzGTCJYuA/maxresdefault.jpg"
                 alt="Nuestro Editor"
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.currentTarget.src = "https://img.youtube.com/vi/AL3q-nDDprA/hqdefault.jpg";
+                  e.currentTarget.src = "https://img.youtube.com/vi/PGpzGTCJYuA/hqdefault.jpg";
                 }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent group-hover:from-black/90 transition-all duration-300">
@@ -54,8 +54,8 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 lg:p-8">
-                  <p className="text-white text-base sm:text-lg md:text-xl font-semibold">Conoce a nuestro equipo de edición</p>
-                  <p className="text-gray-300 text-xs sm:text-sm md:text-base mt-1 md:mt-2">Click para reproducir</p>
+                  <p className="text-white text-base sm:text-lg md:text-xl font-semibold">Conoce nuestro set de grabación completo</p>
+                  <p className="text-gray-300 text-xs sm:text-sm md:text-base mt-1 md:mt-2">Haz clic para reproducir</p>
                 </div>
               </div>
             </div>
@@ -85,7 +85,7 @@ export default function Home() {
 
             <iframe
               className="w-full h-full"
-              src="https://www.youtube.com/embed/AL3q-nDDprA?autoplay=1&rel=0"
+              src="https://www.youtube.com/embed/PGpzGTCJYuA?autoplay=1&rel=0"
               title="Nuestro Editor"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

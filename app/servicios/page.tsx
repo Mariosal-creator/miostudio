@@ -27,7 +27,7 @@ export default function ServiciosPage() {
               href={`/servicios/${cat.slug}`}
               className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${cat.color} p-8 sm:p-10 lg:p-12 text-center transition-all duration-300 hover:shadow-2xl hover:scale-105 min-h-[140px] sm:min-h-[160px] lg:min-h-[180px] flex items-center justify-center`}
             >
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+              <div className="pointer-events-none absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
               <h3 className="relative text-lg sm:text-xl lg:text-2xl font-bold text-white drop-shadow-lg">
                 {cat.nombre}
               </h3>
