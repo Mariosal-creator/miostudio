@@ -1,37 +1,5 @@
 import Link from "next/link";
-
-const trabajosFotografia = [
-  {
-    titulo: "Fotografía Comercial",
-    detalle:
-      "Sesiones para catálogos físicos y digitales con control de iluminación, fondo y estilo visual de marca.",
-  },
-  {
-    titulo: "Fotografía Publicitaria",
-    detalle:
-      "Producción de campañas con enfoque comercial para piezas en redes sociales, pauta y material promocional.",
-  },
-  {
-    titulo: "Cobertura de Eventos",
-    detalle:
-      "Registro fotográfico de activaciones, lanzamientos y eventos corporativos con entrega optimizada para difusión.",
-  },
-  {
-    titulo: "Retrato Profesional",
-    detalle:
-      "Retratos de equipo y fotografía institucional para fortalecer presencia de marca y comunicación empresarial.",
-  },
-  {
-    titulo: "Fotografía Gastronómica",
-    detalle:
-      "Dirección de arte para platos, bebidas y ambientes con composición pensada para generar apetito visual.",
-  },
-  {
-    titulo: "Contenido para Redes",
-    detalle:
-      "Series fotográficas verticales y cuadradas listas para publicaciones en Instagram, Facebook y anuncios.",
-  },
-];
+import { trabajosFotografia } from "./trabajos";
 
 export default function PortfolioFotografiaPage() {
   return (
@@ -56,9 +24,21 @@ export default function PortfolioFotografiaPage() {
               key={trabajo.titulo}
               className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm"
             >
-              <div className="mb-4 h-32 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900" />
+              <div className="mb-4 h-32 overflow-hidden rounded-xl bg-gradient-to-br from-gray-800 to-gray-900">
+                <img
+                  src={trabajo.miniatura ?? "/categoriaserv/fotografia.jpg"}
+                  alt={`Miniatura de ${trabajo.titulo}`}
+                  className="h-full w-full object-cover"
+                />
+              </div>
               <h2 className="text-xl font-semibold text-white">{trabajo.titulo}</h2>
               <p className="mt-3 text-sm text-gray-300 sm:text-base">{trabajo.detalle}</p>
+              <Link
+                href={`/portfolio/fotografia/${trabajo.slug}`}
+                className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#f20c0c] to-black px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
+              >
+                Ver detalle
+              </Link>
             </article>
           ))}
         </div>
