@@ -1,168 +1,208 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 const services = [
   {
     id: 1,
-    name: "Reels y Videos Cortos",
-    icon: (
-      <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-    ),
+    name: "Video",
+    slug: "videos-corporativos",
+    description: "Producción audiovisual para marcas, empresas y campañas.",
+    image: "/slides/slide1.jpg",
+    code: "MO-101",
+    sequence: 1,
+    positionClass: "order-3",
   },
   {
     id: 2,
-    name: "Cursos en Video",
-    icon: (
-      <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
-      </svg>
-    ),
+    name: "Fotografía",
+    slug: "direccion-de-fotografia",
+    description: "Dirección visual y sesiones profesionales con estilo editorial.",
+    image: "/portfolio/fotografia/miniaturas/paisajista/Nissan-114.jpg",
+    code: "MO-204",
+    sequence: 2,
+    positionClass: "order-2",
   },
   {
     id: 3,
-    name: "Podcast Profesional",
-    icon: (
-      <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-      </svg>
-    ),
-  },
-  {
-    id: 4,
-    name: "Videos Publicitarios",
-    icon: (
-      <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9 8l7 4-7 4z"/>
-      </svg>
-    ),
-  },
-  {
-    id: 5,
-    name: "Videos Corporativos",
-    icon: (
-      <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/>
-      </svg>
-    ),
+    name: "Asesoría y Capacitaciones",
+    slug: "consultoria-audiovisual",
+    description: "Acompañamiento estratégico y formación práctica para equipos.",
+    image: "/slides/slide2.jpg",
+    code: "MO-315",
+    sequence: 3,
+    positionClass: "order-1",
   },
 ];
 
-const getRandomSales = () => Math.floor(Math.random() * (8000 - 5000 + 1)) + 5000;
-
 export default function ServicesCarousel() {
-  const [sales, setSales] = useState<Record<number, number>>({});
-  const [hydrated, setHydrated] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const cardRefs = useRef<Array<HTMLAnchorElement | null>>([]);
+  const [isInView, setIsInView] = useState(false);
+  const [visibleStep, setVisibleStep] = useState(0);
+  const [entryOffsets, setEntryOffsets] = useState<Record<number, { x: number; y: number }>>({});
+
+  const calculateCenterOffsets = () => {
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    const stageRect = stage.getBoundingClientRect();
+    const stageCenterX = stageRect.left + stageRect.width / 2;
+    const stageCenterY = stageRect.top + stageRect.height / 2;
+    const nextOffsets: Record<number, { x: number; y: number }> = {};
+
+    cardRefs.current.forEach((card, index) => {
+      if (!card) return;
+      const cardRect = card.getBoundingClientRect();
+      const cardCenterX = cardRect.left + cardRect.width / 2;
+      const cardCenterY = cardRect.top + cardRect.height / 2;
+
+      nextOffsets[index] = {
+        x: stageCenterX - cardCenterX,
+        y: stageCenterY - cardCenterY,
+      };
+    });
+
+    setEntryOffsets(nextOffsets);
+  };
 
   useEffect(() => {
-    setHydrated(true);
-    setSales(services.reduce((acc, p) => ({ ...acc, [p.id]: getRandomSales() }), {}));
+    const section = sectionRef.current;
+    if (!section) return;
 
-    const interval = setInterval(() => {
-      setSales(prev => {
-        const newSales = { ...prev };
-        const servicesToUpdate = Math.floor(Math.random() * 3) + 1;
-        for (let i = 0; i < servicesToUpdate; i++) {
-          const randomService = services[Math.floor(Math.random() * services.length)];
-          newSales[randomService.id] = (newSales[randomService.id] || 0) + 1;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        } else {
+          setIsInView(false);
+          setVisibleStep(0);
         }
-        return newSales;
-      });
-    }, 800);
+      },
+      { threshold: 0.2 }
+    );
 
-    return () => clearInterval(interval);
+    observer.observe(section);
+    return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!isInView) return;
+
+    const animationDuration = 900;
+    const pauseBetweenCards = 120;
+
+    const rafId = requestAnimationFrame(() => {
+      calculateCenterOffsets();
+    });
+    const rafId2 = requestAnimationFrame(() => {
+      calculateCenterOffsets();
+    });
+
+    setVisibleStep(0);
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    services.forEach((service) => {
+      const delay = 80 + (service.sequence - 1) * (animationDuration + pauseBetweenCards);
+      const timer = setTimeout(() => {
+        setVisibleStep(service.sequence);
+      }, delay);
+      timers.push(timer);
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      cancelAnimationFrame(rafId2);
+      timers.forEach(clearTimeout);
+    };
+  }, [isInView]);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (isInView) calculateCenterOffsets();
+    };
+
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [isInView]);
+
   return (
-    <section className="w-full bg-white py-12 sm:py-16 lg:py-20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
-          Nuestros Servicios Principales
+    <section ref={sectionRef} className="relative isolate w-full overflow-hidden bg-black py-16 sm:py-20 lg:py-24">
+      <div
+        className="absolute inset-0 bg-[url('/slides/3.jpg')] bg-cover bg-center bg-fixed"
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 bg-black/70" aria-hidden="true" />
+
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+          Nuestros Servicios
         </h2>
-        <p className="text-sm sm:text-base text-gray-600 mb-8">
-          Desde preproducción hasta postproducción, contamos con expertos en cada área
+        <p className="text-sm sm:text-base text-gray-300 mb-8 sm:mb-10 lg:mb-12 max-w-2xl">
+          Un enfoque visual moderno y minimalista para cada etapa de tu producción.
         </p>
-      </div>
 
-      {/* Carousel */}
-      <div className="relative w-full overflow-x-auto sm:overflow-hidden bg-white touch-pan-x">
-        <div className="animate-scroll-gallery flex w-max gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
-          {services.map((service) => (
-            <div
+        <div ref={stageRef} className="services-stage grid grid-cols-3 gap-2 sm:gap-3 lg:gap-5 lg:pt-2">
+          {services.map((service, index) => (
+            <Link
               key={service.id}
-              className="flex-shrink-0 w-64 sm:w-72 lg:w-80"
+              href={`/servicios/${service.slug}`}
+              data-sequence={service.sequence}
+              ref={(element) => {
+                cardRefs.current[index] = element;
+              }}
+              className={`group relative block aspect-square min-w-0 overflow-hidden rounded-xl border border-white/40 bg-white shadow-2xl transition-[transform,opacity,filter,border-color] duration-[900ms] ease-[cubic-bezier(0.2,0.75,0.2,1)] hover:-translate-y-1 hover:border-[#f20c0c]/70 will-change-transform ${service.positionClass}`}
+              style={
+                service.sequence <= visibleStep
+                  ? {
+                      transform: "translate3d(0, 0, 0) scale(1)",
+                      opacity: 1,
+                      filter: "blur(0px)",
+                    }
+                  : {
+                      transform: `translate3d(${entryOffsets[index]?.x ?? 0}px, ${entryOffsets[index]?.y ?? 0}px, -260px) scale(0.72)`,
+                      opacity: 0,
+                      filter: "blur(4px)",
+                    }
+              }
             >
-              <div className="h-full bg-gradient-to-br from-black via-gray-900 to-black rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                <div className="relative h-48 sm:h-56 bg-gradient-to-br from-gray-800 to-black overflow-hidden flex items-center justify-center cursor-pointer group">
-                  <div className="text-[#f20c0c] group-hover:scale-110 transition-transform duration-300">
-                    {service.icon}
+              <div className="absolute inset-0 overflow-hidden">
+                <img
+                  src={service.image}
+                  alt={service.name}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              </div>
+
+              <div className="relative z-10 flex h-full flex-col justify-between p-2 sm:p-3 lg:p-4">
+                <span className="self-start rounded-md bg-white/90 px-1.5 py-0.5 text-[9px] sm:text-[10px] lg:text-[11px] font-semibold tracking-[0.14em] sm:tracking-[0.16em] lg:tracking-[0.18em] text-black/80">
+                  {service.code}
+                </span>
+
+                <div className="rounded-lg bg-white/92 p-2 sm:p-2.5 lg:p-3 backdrop-blur-sm">
+                  <div className="flex items-start justify-between gap-2 sm:gap-3">
+                    <div>
+                      <h3 className="text-[11px] sm:text-sm lg:text-base font-semibold leading-tight text-black">{service.name}</h3>
+                      <p className="mt-1 hidden sm:line-clamp-2 text-xs sm:block sm:text-xs lg:text-sm text-black/70">{service.description}</p>
+                    </div>
+                    <span className="text-[#f20c0c] text-xs sm:text-sm lg:text-base transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </div>
-                </div>
-
-                <div className="p-4 sm:p-5 text-white">
-                  <h3 className="font-bold text-sm sm:text-base mb-3 line-clamp-2 min-h-[2.5rem]">
-                    {service.name}
-                  </h3>
-
-                  <div className="mb-4 pb-4 border-b border-white/20">
-                    <p className="text-lg sm:text-xl font-bold text-[#f20c0c]">
-                      {hydrated ? `${(sales[service.id] ?? 0).toLocaleString()} consultas` : " "}
-                    </p>
-                  </div>
-
-                  <a 
-                    href="https://wa.me/+593982048240?text=Quiero%20m%C3%A1s%20info..."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full bg-gradient-to-r from-[#f20c0c] to-black hover:brightness-110 text-white font-semibold py-2.5 sm:py-3 rounded-lg transition duration-300 text-sm sm:text-base text-center"
-                  >
-                    Solicitar Información
-                  </a>
                 </div>
               </div>
-            </div>
-          ))}
-          {/* Duplicate for seamless infinite loop */}
-          {services.map((service) => (
-            <div
-              key={`${service.id}-duplicate`}
-              className="flex-shrink-0 w-64 sm:w-72 lg:w-80"
-            >
-              <div className="h-full bg-gradient-to-br from-black via-gray-900 to-black rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                <div className="relative h-48 sm:h-56 bg-gradient-to-br from-gray-800 to-black overflow-hidden flex items-center justify-center cursor-pointer group">
-                  <div className="text-[#f20c0c] group-hover:scale-110 transition-transform duration-300">
-                    {service.icon}
-                  </div>
-                </div>
-
-                <div className="p-4 sm:p-5 text-white">
-                  <h3 className="font-bold text-sm sm:text-base mb-3 line-clamp-2 min-h-[2.5rem]">
-                    {service.name}
-                  </h3>
-
-                  <div className="mb-4 pb-4 border-b border-white/20">
-                    <p className="text-lg sm:text-xl font-bold text-[#f20c0c]">
-                      {hydrated ? `${(sales[service.id] ?? 0).toLocaleString()} consultas` : " "}
-                    </p>
-                  </div>
-
-                  <a 
-                    href="https://wa.me/+593982048240?text=Quiero%20m%C3%A1s%20info..."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full bg-gradient-to-r from-[#f20c0c] to-black hover:brightness-110 text-white font-semibold py-2.5 sm:py-3 rounded-lg transition duration-300 text-sm sm:text-base text-center"
-                  >
-                    Solicitar Información
-                  </a>
-                </div>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
+
+      <style jsx>{`
+        .services-stage {
+          perspective: 1200px;
+          transform-style: preserve-3d;
+        }
+      `}</style>
     </section>
   );
 }
