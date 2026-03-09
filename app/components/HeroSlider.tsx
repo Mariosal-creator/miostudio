@@ -7,22 +7,54 @@ const slides = [
   {
     src: "/slides/slide1.jpg",
     alt: "Slide 1",
-    title: "Producción Audiovisual\nde Clase Mundial",
-    subtitle: "Llevamos tu visión a la pantalla con\ntecnología y creatividad de vanguardia",
+    title: (
+      <>
+        Producción <span className="font-bold text-[#f20c0c]">Audiovisual</span>
+        <br />
+        de <span className="font-bold text-[#f20c0c]">Clase</span> <span className="font-bold text-white">Mundial</span>
+      </>
+    ),
+    subtitle: (
+      <>
+        Llevamos tu <span className="font-bold text-[#f20c0c]">visión</span> a la pantalla con
+        <br />
+        tecnología y <span className="font-bold text-[#f20c0c]">creatividad</span> de vanguardia
+      </>
+    ),
     cta: { label: "Ver nuestro trabajo", href: "/portfolio" },
   },
   {
     src: "/slides/slide2.jpg",
     alt: "Slide 2",
-    title: "Filmmaking Profesional",
-    subtitle: "Desde pre-producción hasta post-producción,\ntenemos todo lo que necesitas",
+    title: (
+      <>
+        <span className="font-bold text-[#f20c0c]">Filmmaking</span> Profesional
+      </>
+    ),
+    subtitle: (
+      <>
+        Desde <span className="font-bold text-[#f20c0c]">pre-producción</span> hasta <span className="font-bold text-[#f20c0c]">post-producción</span>,
+        <br />
+        tenemos todo lo que necesitas
+      </>
+    ),
     cta: { label: "Conocer servicios", href: "/portfolio" },
   },
   {
     src: "/slides/slide3.jpg",
     alt: "Slide 3",
-    title: "Historias que Impactan",
-    subtitle: "Cada proyecto es una obra de arte audiovisual",
+    title: (
+      <>
+        <span className="font-bold text-[#f20c0c]">Historias</span> que Impactan
+      </>
+    ),
+    subtitle: (
+      <>
+        Cada proyecto es una obra de
+        <br />
+        <span className="font-bold text-[#f20c0c]">arte audiovisual</span>
+      </>
+    ),
     cta: { label: "Contactar equipo", href: "/portfolio" },
   },
 ];
@@ -61,12 +93,12 @@ export default function HeroSlider() {
               <div className="absolute inset-0 bg-black/30" />
 
               {/* Text content */}
-              <div className="absolute inset-0 flex items-center justify-start px-4 sm:px-6 lg:px-8">
-                <div className="max-w-6xl text-left text-white ml-[100px]">
-                  <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold tracking-tight whitespace-pre-line">
+              <div className="absolute inset-0 flex items-center justify-center sm:justify-start px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl text-center sm:text-left text-white sm:ml-[80px] lg:ml-[100px]">
+                  <h2 className="text-2xl sm:text-3xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-tight whitespace-pre-line">
                     {s.title}
                   </h2>
-                  <p className="mt-3 text-sm sm:text-base lg:text-lg text-white/90 whitespace-pre-line">
+                  <p className="mt-3 text-sm sm:text-base lg:text-xl xl:text-2xl text-white/95 whitespace-pre-line leading-relaxed max-w-xl lg:max-w-2xl mx-auto sm:mx-0">
                     {s.subtitle}
                   </p>
                   <div className="mt-6">
