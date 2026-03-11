@@ -113,7 +113,7 @@ export default function MissionVisionSection() {
       const baseH = baseW * 0.58;
       const hingeX = centerX - baseW * 0.45;
       const hingeY = centerY - baseH * 0.47;
-      const swing = prefersReducedMotion ? 0.04 : Math.sin(elapsedMs * 0.0014) * 0.1;
+      const swing = prefersReducedMotion ? 0.04 : Math.sin(elapsedMs * 0.002) * 0.22;
 
       context.save();
       context.translate(centerX, centerY);
@@ -192,7 +192,7 @@ export default function MissionVisionSection() {
       const isMobile = width < 768;
       const anchorX = isMobile ? width * 0.3 : width * 0.33;
       const anchorY = isMobile ? height * 0.1 : height * 0.18;
-      const bob = isMobile ? 0 : (prefersReducedMotion ? 0 : Math.sin(elapsedMs * 0.0012) * 1.8);
+      const bob = isMobile ? 0 : (prefersReducedMotion ? 0 : Math.sin(elapsedMs * 0.0018) * 5);
       const cameraScale = isMobile ? 0.56 : 0.95;
       const focusPulse = prefersReducedMotion ? 0 : Math.sin(elapsedMs * 0.002) * 0.8;
 
@@ -324,7 +324,7 @@ export default function MissionVisionSection() {
       const isMobile = width < 768;
       const anchorX = isMobile ? width * 0.7 : width * 0.64;
       const anchorY = isMobile ? height * 0.1 : height * 0.13;
-      const bob = isMobile ? 0 : (prefersReducedMotion ? 0 : Math.sin(elapsedMs * 0.0013 + 1.2) * 1.6);
+      const bob = isMobile ? 0 : (prefersReducedMotion ? 0 : Math.sin(elapsedMs * 0.0019 + 1.2) * 5);
       const scale = isMobile ? 0.64 : 1;
 
       context.save();
@@ -469,6 +469,101 @@ export default function MissionVisionSection() {
       context.stroke();
 
       context.restore();
+    };
+
+    const drawCubistNames = (elapsedMs: number) => {
+      const isMobile = width < 768;
+
+      const glyphs: Record<string, Array<[number, number, number, number]>> = {
+        A: [[0, 10, 4, 0], [4, 0, 8, 10], [1.5, 6, 6.5, 6]],
+        B: [[0, 0, 0, 10], [0, 0, 5, 0], [5, 0, 7, 2], [7, 2, 5, 5], [5, 5, 0, 5], [5, 5, 7, 7], [7, 7, 5, 10], [5, 10, 0, 10]],
+        C: [[7, 2, 5, 0], [5, 0, 2, 0], [2, 0, 0, 2], [0, 2, 0, 8], [0, 8, 2, 10], [2, 10, 5, 10], [5, 10, 7, 8]],
+        E: [[0, 0, 0, 10], [0, 0, 7, 0], [0, 5, 5, 5], [0, 10, 7, 10]],
+        I: [[0, 0, 7, 0], [3.5, 0, 3.5, 10], [0, 10, 7, 10]],
+        L: [[0, 0, 0, 10], [0, 10, 7, 10]],
+        N: [[0, 10, 0, 0], [0, 0, 6, 10], [6, 10, 6, 0]],
+        Ñ: [[0, 10, 0, 0], [0, 0, 6, 10], [6, 10, 6, 0], [1, -3, 3, -5], [3, -5, 5, -3]],
+        O: [[0, 2, 2, 0], [2, 0, 5, 0], [5, 0, 7, 2], [7, 2, 7, 8], [7, 8, 5, 10], [5, 10, 2, 10], [2, 10, 0, 8], [0, 8, 0, 2]],
+        P: [[0, 0, 0, 10], [0, 0, 5, 0], [5, 0, 7, 2], [7, 2, 7, 4], [7, 4, 5, 5], [5, 5, 0, 5]],
+        R: [[0, 0, 0, 10], [0, 0, 5, 0], [5, 0, 7, 2], [7, 2, 5, 5], [5, 5, 0, 5], [5, 5, 7, 10]],
+        S: [[7, 1, 5, 0], [5, 0, 2, 0], [2, 0, 0, 2], [0, 2, 0, 4], [0, 4, 7, 6], [7, 6, 7, 8], [7, 8, 5, 10], [5, 10, 2, 10], [2, 10, 0, 9]],
+        Z: [[0, 0, 7, 0], [7, 0, 0, 10], [0, 10, 7, 10]],
+        " ": [],
+      };
+
+      const drawName = (
+        text: string,
+        normX: number,
+        normY: number,
+        scale: number,
+        rotation: number,
+        phase: number
+      ) => {
+        const alpha = prefersReducedMotion
+          ? 0.08
+          : 0.04 + 0.07 * (0.5 + 0.5 * Math.sin(elapsedMs * 0.0014 + phase));
+
+        context.save();
+        context.translate(width * normX, height * normY);
+        context.rotate(rotation);
+        context.scale(scale, scale);
+        context.strokeStyle = `rgba(255, 255, 255, ${alpha.toFixed(3)})`;
+        context.lineWidth = 0.9;
+        context.lineCap = "round";
+        context.lineJoin = "round";
+
+        let cursorX = 0;
+        for (const letter of text) {
+          const segments = glyphs[letter] ?? [];
+          if (letter === " ") { cursorX += 8; continue; }
+          context.beginPath();
+          for (const [x1, y1, x2, y2] of segments) {
+            context.moveTo(cursorX + x1, y1);
+            context.lineTo(cursorX + x2, y2);
+          }
+          context.stroke();
+          cursorX += 9;
+        }
+        context.restore();
+      };
+
+      // Fixed scatter positions across the illustration zone (top ~28% of canvas)
+      // Each entry: [normX, normY, rotation, phase]
+      const s = isMobile ? 0.6 : 0.85;
+      const placements: Array<[string, number, number, number, number]> = [
+        ["SALAZAR",  0.03, 0.02, -0.18, 0.3],
+        ["PIERRE",   0.20, 0.01,  0.10, 1.2],
+        ["BRICE\u00d1O", 0.42, 0.03, -0.08, 2.1],
+        ["SALAZAR",  0.64, 0.02,  0.14, 3.0],
+        ["PIERRE",   0.82, 0.01, -0.12, 1.7],
+        ["BRICE\u00d1O", 0.08, 0.07,  0.06, 0.8],
+        ["SALAZAR",  0.30, 0.06, -0.20, 2.6],
+        ["PIERRE",   0.52, 0.08,  0.08, 4.0],
+        ["BRICE\u00d1O", 0.72, 0.06, -0.05, 1.4],
+        ["SALAZAR",  0.90, 0.07,  0.16, 3.5],
+        ["PIERRE",   0.15, 0.12, -0.10, 0.5],
+        ["BRICE\u00d1O", 0.38, 0.13,  0.05, 2.8],
+        ["SALAZAR",  0.58, 0.11,  0.12, 4.2],
+        ["PIERRE",   0.78, 0.13, -0.15, 1.9],
+        ["BRICE\u00d1O", 0.02, 0.17,  0.09, 3.3],
+        ["SALAZAR",  0.24, 0.18, -0.14, 0.6],
+        ["PIERRE",   0.46, 0.17,  0.11, 2.4],
+        ["BRICE\u00d1O", 0.66, 0.19, -0.07, 1.1],
+        ["SALAZAR",  0.86, 0.18,  0.18, 3.8],
+        ["PIERRE",   0.10, 0.22, -0.09, 2.0],
+        ["BRICE\u00d1O", 0.33, 0.23,  0.13, 0.4],
+        ["SALAZAR",  0.55, 0.24, -0.16, 3.1],
+        ["PIERRE",   0.74, 0.22,  0.07, 1.6],
+        ["BRICE\u00d1O", 0.92, 0.23, -0.12, 4.4],
+        ["SALAZAR",  0.18, 0.26,  0.10, 2.7],
+        ["PIERRE",   0.44, 0.27, -0.06, 0.9],
+        ["BRICE\u00d1O", 0.70, 0.25,  0.15, 3.6],
+      ];
+
+      for (const [word, nx, ny, rot, ph] of placements) {
+        if (isMobile && nx > 0.85) continue;
+        drawName(word, nx, ny, s, rot, ph);
+      }
     };
 
     const drawOuterMicroMotifs = (elapsedMs: number) => {
@@ -691,6 +786,7 @@ export default function MissionVisionSection() {
       const elapsed = time - startTime;
       context.clearRect(0, 0, width, height);
 
+      drawCubistNames(elapsed);
       drawOuterMicroMotifs(elapsed);
       drawFilmStrip(elapsed);
       drawSonyCamera(elapsed);
@@ -713,7 +809,7 @@ export default function MissionVisionSection() {
     <section className="relative isolate overflow-hidden bg-[#050505] px-4 py-14 sm:px-6 sm:py-16 md:py-20 lg:px-8 lg:py-24">
       <div className="pointer-events-none absolute left-0 top-0 z-20 h-px w-full bg-gradient-to-r from-transparent via-[#f20c0c]/60 to-transparent" />
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(242,12,12,0.32),transparent_40%),radial-gradient(circle_at_88%_20%,rgba(0,191,255,0.2),transparent_35%),linear-gradient(145deg,#050505_0%,#0a0a0a_50%,#050505_100%)]" />
+        <div className="animated-bg absolute inset-0" />
         <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-85 mix-blend-normal" aria-hidden="true" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,5,0.34),rgba(5,5,5,0.12),rgba(5,5,5,0.34))]" />
         <div className="scanline absolute inset-0 opacity-25" />
@@ -723,7 +819,7 @@ export default function MissionVisionSection() {
       <div className="relative z-10 mx-auto max-w-7xl pt-64 sm:pt-56 md:pt-64 lg:pt-72">
         <div className="mt-6 mb-10 flex flex-col items-center gap-3 text-center sm:mt-16 sm:mb-14 sm:gap-4 md:mt-20 lg:mt-24">
           <h2 className="max-w-5xl text-2xl font-extrabold leading-[1.08] text-white sm:text-4xl md:text-5xl lg:text-6xl">
-            Filmamos ideas para golpear retina y memoria
+            Nuestra Mision y Vision
           </h2>
         </div>
 
@@ -803,6 +899,32 @@ export default function MissionVisionSection() {
             transparent 4px
           );
           mix-blend-mode: soft-light;
+        }
+        .animated-bg {
+          background: radial-gradient(circle at 12% 18%, rgba(242,12,12,0.32), transparent 40%),
+                      radial-gradient(circle at 88% 20%, rgba(0,191,255,0.2), transparent 35%),
+                      linear-gradient(145deg, #050505 0%, #0a0a0a 50%, #050505 100%);
+          animation: bgShift 12s ease-in-out infinite alternate;
+        }
+        @keyframes bgShift {
+          0%   { background: radial-gradient(circle at 12% 18%, rgba(242,12,12,0.32), transparent 40%),
+                             radial-gradient(circle at 88% 20%, rgba(0,191,255,0.2), transparent 35%),
+                             linear-gradient(145deg, #050505 0%, #0a0a0a 50%, #050505 100%); }
+          25%  { background: radial-gradient(circle at 28% 30%, rgba(242,12,12,0.28), transparent 42%),
+                             radial-gradient(circle at 72% 12%, rgba(0,191,255,0.22), transparent 38%),
+                             linear-gradient(155deg, #050505 0%, #0a0a0a 50%, #050505 100%); }
+          50%  { background: radial-gradient(circle at 8% 10%, rgba(242,12,12,0.36), transparent 38%),
+                             radial-gradient(circle at 92% 35%, rgba(0,191,255,0.18), transparent 32%),
+                             linear-gradient(135deg, #050505 0%, #080808 50%, #050505 100%); }
+          75%  { background: radial-gradient(circle at 22% 25%, rgba(242,12,12,0.24), transparent 44%),
+                             radial-gradient(circle at 78% 8%, rgba(0,191,255,0.26), transparent 40%),
+                             linear-gradient(150deg, #050505 0%, #0c0c0c 50%, #050505 100%); }
+          100% { background: radial-gradient(circle at 16% 22%, rgba(242,12,12,0.30), transparent 36%),
+                             radial-gradient(circle at 84% 18%, rgba(0,191,255,0.20), transparent 33%),
+                             linear-gradient(140deg, #050505 0%, #0a0a0a 50%, #050505 100%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animated-bg { animation: none; }
         }
       `}</style>
     </section>

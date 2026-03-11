@@ -45,7 +45,7 @@ export default function Home() {
       <section className="py-12 md:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-black to-gray-900">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center mb-6 md:mb-8 lg:mb-12 px-4">
-            Set de grabación completo
+            Quienes somos
           </h2>
           
           <div className="relative max-w-4xl mx-auto">
