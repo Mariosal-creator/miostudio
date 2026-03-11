@@ -110,7 +110,7 @@ function PortfolioVideosContent() {
     <section className="min-h-screen bg-gradient-to-b from-gray-900 to-black px-4 py-12 sm:px-6 md:py-16 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-white sm:text-4xl md:text-5xl">Portfolio de Videos</h1>
+          <h1 className="text-3xl font-bold text-white sm:text-4xl md:text-5xl">Servicios de Videos</h1>
           <p className="mx-auto mt-4 max-w-3xl text-base text-gray-300 sm:text-lg">
             Explora proyectos horizontales y verticales desarrollados para publicidad, branding y redes sociales.
           </p>

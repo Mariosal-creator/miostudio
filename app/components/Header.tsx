@@ -44,7 +44,7 @@ const buildQueryTokens = (rawQuery: string) => {
 
 const navLinks = [
   { label: "Inicio", href: "/" },
-  { label: "Portfolio", href: "/portfolio" },
+  { label: "Servicios", href: "/servicios" },
   { label: "Nuestro Equipo", href: "/nuestro-equipo" },
   { label: "Contacto", href: "/contacto" },
 ];

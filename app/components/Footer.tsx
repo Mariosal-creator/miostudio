@@ -20,7 +20,7 @@ export default function Footer() {
               {[
                 { label: "Inicio", href: "#" },
                 { label: "Servicios", href: "#" },
-                { label: "Portfolio", href: "#" },
+                { label: "Servicios", href: "#" },
                 { label: "Proyectos", href: "#" },
                 { label: "Contacto", href: "#" },
               ].map((item) => (

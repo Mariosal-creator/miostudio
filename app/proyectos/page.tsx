@@ -9,7 +9,7 @@ export default function ProyectosPage() {
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
-              Nuestro Portfolio
+              Nuestros Servicios
             </h1>
             <p className="text-xl text-gray-400">
               Proyectos audiovisuales que hemos realizado para marcas líderes
@@ -21,7 +21,7 @@ export default function ProyectosPage() {
             <div className="text-6xl mb-6">🎬</div>
             <h2 className="text-3xl font-bold text-white mb-4">Galería de Proyectos</h2>
             <p className="text-gray-300 text-lg mb-6">
-              Estamos actualizando nuestro portfolio con nuestros últimos trabajos en producción audiovisual.
+              Estamos actualizando nuestros servicios con nuestros últimos trabajos en producción audiovisual.
             </p>
             <div className="inline-block">
               <a 

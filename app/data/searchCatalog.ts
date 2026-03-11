@@ -7,7 +7,7 @@
 
 export const searchItems: SearchItem[] = [
   { name: "Inicio", href: "/", image: "/logohead.png", keywords: ["home", "principal"] },
-  { name: "Portfolio", href: "/portfolio", image: "/categoriaserv/videos.jpg", keywords: ["trabajos", "proyectos", "muestrario"] },
+  { name: "Servicios", href: "/servicios", image: "/categoriaserv/videos.jpg", keywords: ["trabajos", "proyectos", "muestrario"] },
   { name: "Videos", href: "/portfolio/videos", image: "/categoriaserv/videos.jpg", keywords: ["video", "videos", "audiovisual", "horizontal", "vertical"] },
   { name: "Cursos en Video", href: "/portfolio/videos?video=-rpHP2Q6Tow", image: "/categoriaserv/videos.jpg", keywords: ["curso", "capacitacion", "educativo"] },
   { name: "Videos de Bodas", href: "/portfolio/videos?video=L1gUbHzWxG8", image: "/categoriaserv/videos.jpg", keywords: ["boda", "wedding", "evento"] },

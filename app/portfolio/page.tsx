@@ -30,7 +30,7 @@ export default function PortfolioPage() {
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white sm:text-4xl md:text-5xl lg:text-6xl">
-            Nuestro Portfolio
+            Nuestros Servicios
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-base text-gray-300 sm:text-lg md:text-xl">
             Explora nuestras categorías y accede a una vista más detallada del trabajo en video, fotografía y transmisiones en vivo.

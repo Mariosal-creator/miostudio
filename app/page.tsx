@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import HeroSlider from "./components/HeroSlider";
+import MissionVisionSection from "./components/MissionVisionSection";
 import ServicesCarousel from "./components/ServicesCarousel";
 import TestimonialsSection from "./components/TestimonialsSection";
 import BrandsCarousel from "./components/BrandsCarousel";
@@ -38,6 +39,7 @@ export default function Home() {
     <>
       <Header />
       <HeroSlider />
+      <MissionVisionSection />
       
       {/* Sección Nuestro Editor */}
       <section className="py-12 md:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-black to-gray-900">

@@ -21,7 +21,7 @@ const slides = [
         tecnología y <span className="font-bold text-[#f20c0c]">creatividad</span> de vanguardia
       </>
     ),
-    cta: { label: "Ver nuestro trabajo", href: "/portfolio" },
+    cta: { label: "Ver nuestro trabajo", href: "/servicios" },
   },
   {
     src: "/slides/slide2.jpg",
@@ -38,7 +38,7 @@ const slides = [
         tenemos todo lo que necesitas
       </>
     ),
-    cta: { label: "Conocer servicios", href: "/portfolio" },
+    cta: { label: "Conocer servicios", href: "/servicios" },
   },
   {
     src: "/slides/slide3.jpg",
@@ -55,7 +55,7 @@ const slides = [
         <span className="font-bold text-[#f20c0c]">arte audiovisual</span>
       </>
     ),
-    cta: { label: "Contactar equipo", href: "/portfolio" },
+    cta: { label: "Contactar equipo", href: "/servicios" },
   },
 ];
 
