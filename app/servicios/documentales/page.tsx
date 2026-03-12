@@ -21,7 +21,7 @@ export default function DocumentalesPage() {
           <CategoryIntro
             title="Documentales"
             description="Desarrollamos documentales que conectan con la audiencia a través de relatos reales, estética cuidada y construcción narrativa sólida."
-            primaryCtaHref="https://wa.me/593963163035?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20documentales"
+            primaryCtaHref="https://wa.me/593983231437?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20documentales"
           />
       </div>
       </div>

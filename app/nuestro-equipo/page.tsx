@@ -19,7 +19,7 @@ const integrantes: Miembro[] = [
     descripcion:
       "Especialista en captura, mezcla y diseño sonoro; crea atmósferas claras, potentes y envolventes para elevar cada producción audiovisual.",
     foto: "/equipo/mario-salazar.jpg",
-    whatsapp: "https://wa.me/593982048240?text=Hola%20Mario%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20servicios.",
+    whatsapp: "https://wa.me/593983231437?text=Hola%20Mario%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20servicios.",
   },
   {
     id: "obed",
@@ -28,7 +28,7 @@ const integrantes: Miembro[] = [
     descripcion:
       "Dirige la propuesta visual, iluminación y encuadre; construye una estética cinematográfica sólida que fortalece el mensaje de cada proyecto.",
     foto: "/equipo/obed-briseno.jpg",
-    whatsapp: "https://wa.me/593982048240?text=Hola%20Obed%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20fotograf%C3%ADa.",
+    whatsapp: "https://wa.me/593983231437?text=Hola%20Obed%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20fotograf%C3%ADa.",
   },
   {
     id: "ismael",
@@ -37,7 +37,7 @@ const integrantes: Miembro[] = [
     descripcion:
       "Lidera la producción y realización de video; organiza cada etapa técnica y creativa para convertir ideas en piezas impactantes.",
     foto: "/equipo/ismael-pierre.jpg",
-    whatsapp: "https://wa.me/593982048240?text=Hola%20Ismael%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20video.",
+    whatsapp: "https://wa.me/593983231437?text=Hola%20Ismael%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20video.",
   },
 ];
 

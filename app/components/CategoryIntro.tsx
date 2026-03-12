@@ -9,7 +9,7 @@ type Props = {
 export default function CategoryIntro({
   title,
   description,
-  primaryCtaHref = "https://wa.me/593963163035?text=Hola%20Moi%20Studio%20%2D%20quisiera%20informaci%C3%B3n",
+  primaryCtaHref = "https://wa.me/593983231437?text=Hola%20Moi%20Studio%20%2D%20quisiera%20informaci%C3%B3n",
   secondaryCtaHref = "/proyectos",
   secondaryCtaLabel = "Ver proyectos",
 }: Props) {

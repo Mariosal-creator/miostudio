@@ -21,7 +21,7 @@ export default function TransmisionEnVivoPage() {
           <CategoryIntro
             title="Transmisión en vivo"
             description="Gestionamos eventos en directo con planificación técnica, operación en tiempo real y salida optimizada para cada plataforma."
-            primaryCtaHref="https://wa.me/593963163035?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20transmisi%C3%B3n%20en%20vivo"
+            primaryCtaHref="https://wa.me/593983231437?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20transmisi%C3%B3n%20en%20vivo"
           />
       </div>
       </div>

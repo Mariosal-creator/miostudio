@@ -134,7 +134,7 @@ export default function Header() {
             Buscar
           </button>
           <a 
-            href="https://wa.me/+593982048240?text=Quiero%20m%C3%A1s%20info..." 
+            href="https://wa.me/+593983231437?text=Quiero%20m%C3%A1s%20info..." 
             target="_blank"
             rel="noopener noreferrer"
             className="hidden md:inline-flex items-center rounded-full bg-gradient-to-r from-[#f20c0c] to-black px-5 py-2 text-base font-semibold text-white shadow-sm transition hover:brightness-110"
@@ -223,7 +223,7 @@ export default function Header() {
               </a>
             ))}
             <a
-              href="https://wa.me/+593982048240?text=Quiero%20m%C3%A1s%20info..."
+              href="https://wa.me/+593983231437?text=Quiero%20m%C3%A1s%20info..."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#f20c0c] to-black px-5 py-3 text-base font-semibold text-white shadow-sm transition hover:brightness-110 mt-2"

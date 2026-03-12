@@ -21,7 +21,7 @@ export default function DireccionDeFotografiaPage() {
           <CategoryIntro
             title="Dirección de fotografía"
             description="Diseñamos la estética visual de cada proyecto con una propuesta cinematográfica alineada a tu marca y objetivos de comunicación."
-            primaryCtaHref="https://wa.me/593963163035?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20direcci%C3%B3n%20de%20fotograf%C3%ADa"
+            primaryCtaHref="https://wa.me/593983231437?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20direcci%C3%B3n%20de%20fotograf%C3%ADa"
           />
       </div>
       </div>

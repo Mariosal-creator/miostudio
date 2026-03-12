@@ -21,7 +21,7 @@ export default function ConsultoriaAudiovisualPage() {
           <CategoryIntro
             title="Consultoría audiovisual"
             description="Te ayudamos a definir estrategia, formatos y flujo de trabajo para que tu contenido audiovisual cumpla objetivos de negocio."
-            primaryCtaHref="https://wa.me/593963163035?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20consultor%C3%ADa%20audiovisual"
+            primaryCtaHref="https://wa.me/593983231437?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20consultor%C3%ADa%20audiovisual"
           />
       </div>
       </div>

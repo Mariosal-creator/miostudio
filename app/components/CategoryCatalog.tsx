@@ -19,7 +19,7 @@ export default function CategoryCatalog({ items }: Props) {
         <div className="flex items-center justify-between">
           <h3 className="text-lg sm:text-xl font-bold text-gray-900">Modelos disponibles</h3>
           <a
-            href="https://wa.me/593963163035?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20de%20servicios"
+            href="https://wa.me/593983231437?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20de%20servicios"
             className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#f20c0c] to-black px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow hover:brightness-105"
           >
             Consultar por WhatsApp
@@ -52,7 +52,7 @@ export default function CategoryCatalog({ items }: Props) {
                   <a
                     href={
                       p.href ||
-                      `https://wa.me/593963163035?text=Hola%20Moi%20Studio%20%2D%20me%20interesa%20el%20servicio%20${encodeURIComponent(p.title)}`
+                      `https://wa.me/593983231437?text=Hola%20Moi%20Studio%20%2D%20me%20interesa%20el%20servicio%20${encodeURIComponent(p.title)}`
                     }
                     className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#f20c0c] to-black px-4 py-2 text-xs font-semibold text-white shadow hover:brightness-105"
                   >

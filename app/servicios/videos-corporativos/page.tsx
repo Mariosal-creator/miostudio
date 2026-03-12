@@ -61,7 +61,7 @@ export default function VideosCorporativosPage() {
           <CategoryIntro
             title="Videos corporativos"
             description="Creamos piezas audiovisuales que comunican la esencia de tu empresa, refuerzan credibilidad y mejoran la conexión con tu audiencia."
-            primaryCtaHref="https://wa.me/593963163035?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20videos%20corporativos"
+            primaryCtaHref="https://wa.me/593983231437?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20videos%20corporativos"
           />
           <CategoryCatalog items={catalogo} />
         </div>

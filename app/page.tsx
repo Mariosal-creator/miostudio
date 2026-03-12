@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import HeroSlider from "./components/HeroSlider";
 import MissionVisionSection from "./components/MissionVisionSection";
 import ServicesCarousel from "./components/ServicesCarousel";
+import RecentProjectsCarousel from "./components/RecentProjectsCarousel";
 import TestimonialsSection from "./components/TestimonialsSection";
 import BrandsCarousel from "./components/BrandsCarousel";
 import Footer from "./components/Footer";
@@ -112,6 +113,7 @@ export default function Home() {
       )}
 
       <ServicesCarousel />
+  <RecentProjectsCarousel />
       <TestimonialsSection />
       <BrandsCarousel />
       <Footer />

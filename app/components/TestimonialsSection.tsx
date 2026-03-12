@@ -29,11 +29,13 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 mb-12">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="flex flex-col items-center text-center p-6 sm:p-8 bg-gradient-to-br from-red-50 to-black/5 border-2 border-red-200 rounded-2xl hover:border-[#f20c0c] transition-colors duration-300"
+              className={`flex flex-col items-center text-center p-5 sm:p-8 bg-gradient-to-br from-red-50 to-black/5 border-2 border-red-200 rounded-2xl hover:border-[#f20c0c] transition-colors duration-300 ${
+                index === 2 ? "col-span-2 w-full max-w-[280px] justify-self-center sm:col-span-1 sm:max-w-none" : ""
+              }`}
             >
               <div className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#f20c0c] mb-4">
                 {stat.percentage}

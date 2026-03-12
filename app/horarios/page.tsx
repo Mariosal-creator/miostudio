@@ -85,7 +85,7 @@ export default function HorariosPage() {
                   ¿Tienes un proyecto? Comunícate con nuestro equipo
                 </p>
                 <a
-                  href="https://wa.me/593963163035"
+                  href="https://wa.me/593983231437"
                   className="inline-block mt-3 text-sm font-semibold underline hover:text-white/80 transition"
                 >
                   +593 96 316 3035

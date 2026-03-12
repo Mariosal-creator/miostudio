@@ -21,7 +21,7 @@ export default function EdicionPostproduccionPage() {
           <CategoryIntro
             title="Edición y postproducción"
             description="Transformamos material en bruto en piezas de alto impacto con edición dinámica, corrección de color y mezcla de sonido profesional."
-            primaryCtaHref="https://wa.me/593963163035?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20edici%C3%B3n%20y%20postproducci%C3%B3n"
+            primaryCtaHref="https://wa.me/593983231437?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20edici%C3%B3n%20y%20postproducci%C3%B3n"
           />
       </div>
       </div>

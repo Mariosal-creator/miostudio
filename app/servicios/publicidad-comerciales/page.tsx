@@ -21,7 +21,7 @@ export default function PublicidadComercialesPage() {
           <CategoryIntro
             title="Publicidad y comerciales"
             description="Creamos campañas visuales que potencian posicionamiento, recordación y resultados comerciales en diferentes canales."
-            primaryCtaHref="https://wa.me/593963163035?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20publicidad%20y%20comerciales"
+            primaryCtaHref="https://wa.me/593983231437?text=Hola%20Moi%20Studio%20%2D%20quiero%20informaci%C3%B3n%20sobre%20publicidad%20y%20comerciales"
           />
       </div>
       </div>

@@ -1,7 +1,7 @@
 export default function WhatsAppQuoteButton() {
   return (
     <a
-      href="https://wa.me/593982048240?text=Hola%2C%20quiero%20cotizar%20un%20servicio%20audiovisual"
+      href="https://wa.me/593983231437?text=Hola%2C%20quiero%20cotizar%20un%20servicio%20audiovisual"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Cotizar por WhatsApp"
