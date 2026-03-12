@@ -16,7 +16,7 @@ const serviceLinks = [
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-gradient-to-b from-[#111315] via-[#0d0f11] to-[#08090a] text-white py-14 sm:py-16 lg:py-20">
+    <footer className="w-full bg-gradient-to-b from-[#12161d] via-[#0c1016] to-[#050608] text-white pt-14 sm:pt-16 lg:pt-20 pb-0">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
           {/* Marca y tagline */}
@@ -30,9 +30,9 @@ export default function Footer() {
           </div>
 
           {/* Navegación */}
-          <div className="col-span-2 sm:col-span-1 space-y-3 text-center">
+          <div className="col-span-2 sm:col-span-1 space-y-3 text-center lg:text-left">
             <h3 className="text-base sm:text-lg font-semibold">Navegacion</h3>
-            <div className="flex items-center justify-center gap-3 text-[11px] sm:text-base text-white/85 whitespace-nowrap">
+            <div className="flex items-center justify-center gap-3 text-[11px] sm:text-base text-white/85 whitespace-nowrap lg:flex-col lg:items-start lg:justify-start lg:gap-2 lg:whitespace-normal">
               {navigationLinks.map((item) => (
                 <Link
                   key={item.label}
@@ -46,9 +46,9 @@ export default function Footer() {
           </div>
 
           {/* Servicios */}
-          <div className="col-span-2 sm:col-span-1 space-y-3 text-center border-t border-b border-white/20 pt-4 pb-4 sm:border-t-0 sm:border-b-0 sm:border-l sm:pt-0 sm:pb-0 sm:pl-6 lg:border-r lg:pr-6">
+          <div className="col-span-2 sm:col-span-1 space-y-3 text-center lg:text-left border-t border-b border-white/20 pt-4 pb-4 sm:border-t-0 sm:border-b-0 sm:border-l sm:pt-0 sm:pb-0 sm:pl-6 lg:border-r lg:pr-6">
             <h3 className="text-base sm:text-lg font-semibold">Servicios</h3>
-            <div className="flex items-center justify-center gap-3 text-[11px] sm:text-base text-white/85 whitespace-nowrap">
+            <div className="flex items-center justify-center gap-3 text-[11px] sm:text-base text-white/85 whitespace-nowrap lg:flex-col lg:items-start lg:justify-start lg:gap-2 lg:whitespace-normal">
               {serviceLinks.map((item) => (
                 <Link
                   key={item.label}
@@ -84,13 +84,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/80">
-          <span>© {new Date().getFullYear()} Moi Studio. Todos los derechos reservados.</span>
-          <div className="flex items-center gap-4">
-            <Link href="/horarios" className="hover:text-white">Horarios</Link>
-            <Link href="/contacto" className="hover:text-white">Contacto</Link>
-          </div>
-        </div>
+      </div>
+
+      <div className="mt-12 w-full bg-[#f20c0c] px-4 py-3 text-center text-sm font-medium text-white">
+        © 2026 Moi Studio. Todos los derechos reservados.
       </div>
     </footer>
   );
