@@ -16,7 +16,6 @@ export const searchItems: SearchItem[] = [
   { name: "Fotografía Comercial", href: "/portfolio/fotografia", image: "/categoriaserv/fotografia.jpg", keywords: ["comercial", "fondo", "iluminacion", "ecommerce"] },
   { name: "Fotografía Publicitaria", href: "/portfolio/fotografia", image: "/categoriaserv/fotografia.jpg", keywords: ["publicidad", "branding", "campana"] },
   { name: "Streaming en Vivo", href: "/portfolio/stream-live", image: "/categoriaserv/stream-live.jpg", keywords: ["stream", "streaming", "en vivo", "directo"] },
-    { name: "Documental ONG", href: "/documental", image: "/categoriaserv/videos.jpg", keywords: ["documental", "licitacion", "ong", "cooperacion", "genero", "fundacion avsi"] },
   { name: "Videos Corporativos", href: "/servicios/videos-corporativos", image: "/categoriaserv/videos.jpg", keywords: ["corporativo", "empresa", "institucional"] },
   { name: "Dirección de Fotografía", href: "/servicios/direccion-de-fotografia", image: "/categoriaserv/fotografia.jpg", keywords: ["direccion", "fotografia", "df"] },
   { name: "Edición y Postproducción", href: "/servicios/edicion-postproduccion", image: "/categoriaserv/videos.jpg", keywords: ["edicion", "post", "color", "audio"] },
