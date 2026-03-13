@@ -13,13 +13,22 @@ type Miembro = {
 
 const integrantes: Miembro[] = [
   {
+    id: "rogers",
+    nombre: "Rogers Laverde",
+    cargo: "Productor y Director de Proyecto",
+    descripcion:
+      "Coordina la estrategia, logística y dirección general del proyecto para asegurar entregas claras, ordenadas y de alto impacto visual.",
+    foto: "/equipo/Rogers.jpg",
+    whatsapp: "https://wa.me/593990439734?text=Hola%20Rogers%20Laverde%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20producci%C3%B3n%20audiovisual.",
+  },
+  {
     id: "mario",
     nombre: "Mario Salazar",
     cargo: "Jefe de Audio y Sonido",
     descripcion:
       "Especialista en captura, mezcla y diseño sonoro; crea atmósferas claras, potentes y envolventes para elevar cada producción audiovisual.",
     foto: "/equipo/mario-salazar.jpg",
-    whatsapp: "https://wa.me/593983231437?text=Hola%20Mario%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20servicios.",
+    whatsapp: "https://wa.me/593982048240?text=Hola%20Mario%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20servicios.",
   },
   {
     id: "obed",
@@ -28,7 +37,7 @@ const integrantes: Miembro[] = [
     descripcion:
       "Dirige la propuesta visual, iluminación y encuadre; construye una estética cinematográfica sólida que fortalece el mensaje de cada proyecto.",
     foto: "/equipo/obed-briseno.jpg",
-    whatsapp: "https://wa.me/593983231437?text=Hola%20Obed%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20fotograf%C3%ADa.",
+    whatsapp: "https://wa.me/593987898227?text=Hola%20Obed%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20fotograf%C3%ADa.",
   },
   {
     id: "ismael",
@@ -85,11 +94,11 @@ export default function NuestroEquipoPage() {
             Nuestro <span className="text-[#f20c0c]">Equipo</span>
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-base text-gray-300 sm:mt-6 sm:text-lg md:text-xl">
-            Conoce a nuestros tres integrantes y haz clic en cada fotografía para verla en una ventana modal.
+            Conoce a nuestros integrantes y haz clic en cada fotografía para verla en una ventana modal.
           </p>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 sm:gap-6 md:grid-cols-2 lg:mt-12 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-2 gap-5 sm:mt-10 sm:gap-6 lg:mt-12">
           {integrantes.map((integrante) => (
             <article
               key={integrante.id}
@@ -98,12 +107,12 @@ export default function NuestroEquipoPage() {
               <button
                 type="button"
                 onClick={() => abrirModal(integrante.foto, integrante.nombre)}
-                className="group relative block w-full overflow-hidden rounded-xl border border-white/10 bg-black"
+                className="group relative block aspect-square w-full overflow-hidden rounded-xl border border-white/10 bg-black"
               >
                 <img
                   src={integrante.foto}
                   alt={integrante.nombre}
-                  className="h-64 w-full object-cover transition group-hover:scale-105 sm:h-72 md:h-64 lg:h-72"
+                  className="h-full w-full object-cover transition group-hover:scale-105"
                 />
                 <span className="absolute inset-x-0 bottom-0 bg-black/70 px-3 py-2 text-left text-xs text-white sm:text-sm">
                   Clic para ampliar

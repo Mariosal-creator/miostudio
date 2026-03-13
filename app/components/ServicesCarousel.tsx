@@ -2,12 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const services = [
   {
     id: 1,
     name: "Video",
-    slug: "videos-corporativos",
+    slug: "video",
     description: "Producción audiovisual para marcas, empresas y campañas.",
     image: "/slides/slide1.jpg",
     code: "MO-101",
@@ -15,7 +16,7 @@ const services = [
   {
     id: 2,
     name: "Fotografía",
-    slug: "direccion-de-fotografia",
+    slug: "fotografia",
     description: "Dirección visual y sesiones profesionales con estilo editorial.",
     image: "/portfolio/fotografia/miniaturas/paisajista/Nissan-114.jpg",
     code: "MO-204",
@@ -23,7 +24,7 @@ const services = [
   {
     id: 3,
     name: "Asesoría y Capacitaciones",
-    slug: "consultoria-audiovisual",
+    slug: "asesoria-capacitaciones",
     description: "Acompañamiento estratégico y formación práctica para equipos.",
     image: "/slides/slide2.jpg",
     code: "MO-315",
@@ -31,6 +32,7 @@ const services = [
 ];
 
 export default function ServicesCarousel() {
+  const router = useRouter();
   const [activeServiceId, setActiveServiceId] = useState(1);
   const [showBackCards, setShowBackCards] = useState(false);
   const lastSwitchRef = useRef(0);
@@ -122,7 +124,7 @@ export default function ServicesCarousel() {
               key={service.id}
               role="button"
               tabIndex={0}
-              onClick={() => setActiveServiceId(service.id)}
+              onClick={() => router.push(`/servicios/${service.slug}`)}
               onMouseEnter={() => {
                 if (!isCenter) {
                   setActiveServiceId(service.id);
@@ -131,7 +133,7 @@ export default function ServicesCarousel() {
               onKeyDown={(event) => {
                 if (event.key === "Enter" || event.key === " ") {
                   event.preventDefault();
-                  setActiveServiceId(service.id);
+                  router.push(`/servicios/${service.slug}`);
                 }
               }}
               className={`group absolute top-1/2 w-[44vw] sm:w-[33vw] lg:w-[24vw] max-w-[360px] aspect-square min-w-0 overflow-hidden rounded-xl border border-white/30 bg-white shadow-2xl transition-[left,transform,opacity,filter,border-color,box-shadow,width] duration-700 ease-[cubic-bezier(0.2,0.75,0.2,1)] will-change-transform ${
