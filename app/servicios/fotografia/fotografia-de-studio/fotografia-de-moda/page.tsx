@@ -14,9 +14,14 @@ const highlights = [
 
 const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
 
+type ModaImageEntry = {
+  url: string;
+  modifiedTime: number;
+};
+
 const toWebPath = (segments: string[]) => segments.map((segment) => encodeURIComponent(segment)).join("/");
 
-const walkModaImages = (directoryPath: string, relativeSegments: string[] = []) => {
+const walkModaImages = (directoryPath: string, relativeSegments: string[] = []): ModaImageEntry[] => {
   const entries = fs.readdirSync(directoryPath, { withFileTypes: true });
 
   return entries.flatMap((entry) => {
