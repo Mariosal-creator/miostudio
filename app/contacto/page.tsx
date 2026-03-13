@@ -23,6 +23,54 @@ export default function ContactoPage() {
       url: "https://www.facebook.com/mario.salazar.or",
       color: "from-blue-600 to-blue-700",
       hoverColor: "hover:from-blue-700 hover:to-blue-800"
+    },
+    {
+      nombre: "TikTok",
+      descripcion: "Mira nuestro contenido y producciones en formato vertical",
+      icon: (
+        <svg className="w-20 h-20 sm:w-24 sm:h-24" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.218V2h-3.358v13.548a2.898 2.898 0 1 1-2-2.756V9.39a6.257 6.257 0 0 0-1.165-.109A6.262 6.262 0 1 0 15.82 15.54V8.653a8.154 8.154 0 0 0 4.773 1.526V6.821c-.342 0-.68-.046-1.004-.135Z" />
+        </svg>
+      ),
+      url: "https://www.tiktok.com/@moistudioec",
+      color: "from-neutral-900 to-neutral-700",
+      hoverColor: "hover:from-neutral-800 hover:to-neutral-600"
+    },
+    {
+      nombre: "YouTube",
+      descripcion: "Explora nuestro canal con proyectos, coberturas y contenido audiovisual",
+      icon: (
+        <svg className="w-20 h-20 sm:w-24 sm:h-24" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M23.498 6.186a2.997 2.997 0 0 0-2.11-2.122C19.506 3.545 12 3.545 12 3.545s-7.506 0-9.388.519A2.997 2.997 0 0 0 .502 6.186 31.227 31.227 0 0 0 0 12a31.227 31.227 0 0 0 .502 5.814 2.997 2.997 0 0 0 2.11 2.122c1.882.519 9.388.519 9.388.519s7.506 0 9.388-.519a2.997 2.997 0 0 0 2.11-2.122A31.227 31.227 0 0 0 24 12a31.227 31.227 0 0 0-.502-5.814ZM9.545 15.568V8.432L15.818 12l-6.273 3.568Z" />
+        </svg>
+      ),
+      url: "https://www.youtube.com/@MOISTUDIOEC",
+      color: "from-red-600 to-red-700",
+      hoverColor: "hover:from-red-700 hover:to-red-800"
+    },
+    {
+      nombre: "Linktree",
+      descripcion: "Accede a todos nuestros enlaces, plataformas y canales desde un solo lugar",
+      icon: (
+        <svg className="w-20 h-20 sm:w-24 sm:h-24" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M10.5 3h3v6.086l3.95-3.95 2.121 2.121-4.889 4.89H21v3h-6.318l4.889 4.889-2.121 2.122-3.95-3.95V24h-3v-5.939l-3.95 3.95-2.121-2.122 4.889-4.889H3v-3h6.318L4.429 7.257l2.121-2.121 3.95 3.95V3Z" />
+        </svg>
+      ),
+      url: "https://linktr.ee/moistudioec",
+      color: "from-lime-500 to-emerald-600",
+      hoverColor: "hover:from-lime-400 hover:to-emerald-500"
+    },
+    {
+      nombre: "Kick",
+      descripcion: "Sigue nuestras transmisiones, sesiones en vivo y contenido en tiempo real",
+      icon: (
+        <svg className="w-20 h-20 sm:w-24 sm:h-24" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M4 2h10v6h2l4-4v7l-4 4h4v7h-7v-4l-4 4H4V2Zm4 4v4h4V6H8Zm0 8v4h1.343L12 15.343V14H8Z" />
+        </svg>
+      ),
+      url: "https://kick.com/moistudio",
+      color: "from-green-400 to-lime-500",
+      hoverColor: "hover:from-green-300 hover:to-lime-400"
     }
   ];
 

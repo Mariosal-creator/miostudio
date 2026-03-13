@@ -1,60 +1,76 @@
 import Link from "next/link";
-
-const subcategorias = [
-  {
-    nombre: "Videos Corporativos",
-    slug: "videos-corporativos",
-    ejemplo: "Ejemplo: video institucional para marca o empresa.",
-  },
-  {
-    nombre: "Publicidad y Comerciales",
-    slug: "publicidad-comerciales",
-    ejemplo: "Ejemplo: spot para lanzamiento de producto.",
-  },
-  {
-    nombre: "Documentales",
-    slug: "documentales",
-    ejemplo: "Ejemplo: piezas narrativas de impacto social.",
-  },
-  {
-    nombre: "Transmisión en Vivo",
-    slug: "transmision-en-vivo",
-    ejemplo: "Ejemplo: cobertura en vivo de eventos y conferencias.",
-  },
-  {
-    nombre: "Edición y Postproducción",
-    slug: "edicion-postproduccion",
-    ejemplo: "Ejemplo: montaje, colorización y entrega final.",
-  },
-  {
-    nombre: "Motion Graphics",
-    slug: "motion-graphics",
-    ejemplo: "Ejemplo: animaciones para redes, marca y campañas.",
-  },
-];
+import Image from "next/image";
+import { videoHighlights, videoSubcategories } from "./videoSubcategories";
 
 export default function VideoPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-5xl">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
-          <span className="text-[#f20c0c]">Video</span>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">Subcategoria</p>
+        <h1 className="mt-3 text-3xl font-black text-white sm:text-4xl lg:text-5xl">
+          Produccion de <span className="text-[#f20c0c]">Video</span>
         </h1>
-        <p className="text-base sm:text-lg text-gray-300 mb-8 sm:mb-10">Selecciona una subcategoría.</p>
+        <p className="mt-4 max-w-3xl text-sm text-gray-300 sm:text-base lg:text-lg">
+          Desarrollamos piezas audiovisuales para marcas, campañas y coberturas con enfoque narrativo, tecnico y
+          multiplataforma. Selecciona la linea de produccion que necesitas.
+        </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-          {subcategorias.map((subcategoria) => (
-            <Link
-              key={subcategoria.slug}
-              href={`/servicios/${subcategoria.slug}`}
-              className="block rounded-xl border border-white/10 bg-white/5 p-4 sm:p-5 transition hover:border-[#f20c0c]/60 hover:bg-white/10"
-            >
-              <h2 className="text-base sm:text-lg font-semibold text-white">{subcategoria.nombre}</h2>
-              <p className="mt-1 text-sm text-gray-300">{subcategoria.ejemplo}</p>
-            </Link>
+        <div className="mt-8 grid gap-3 sm:grid-cols-2">
+          {videoHighlights.map((item) => (
+            <article key={item} className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-gray-200">
+              {item}
+            </article>
           ))}
         </div>
+
+        <section className="mt-10">
+          <h2 className="text-xl font-bold text-white sm:text-2xl">Subcategorias de video</h2>
+          <p className="mt-2 text-sm text-gray-300">Explora cada formato segun tu objetivo de comunicacion.</p>
+
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {videoSubcategories.map((subcategoria) => (
+              <Link
+                key={subcategoria.title}
+                href={subcategoria.href}
+                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:border-[#f20c0c]/60 hover:bg-white/10"
+              >
+                <div className="relative aspect-[16/10] w-full">
+                  <Image
+                    src={subcategoria.image}
+                    alt={`Miniatura de ${subcategoria.title}`}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    className="object-cover transition duration-300 group-hover:scale-105"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-bold text-white">{subcategoria.title}</h3>
+                  <p className="mt-2 text-sm text-gray-300">{subcategoria.description}</p>
+                  <span className="mt-3 inline-flex text-xs font-semibold uppercase tracking-[0.16em] text-[#f20c0c]">
+                    Ver subcategoria
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link
+            href="/portfolio/videos"
+            className="inline-flex rounded-full bg-gradient-to-r from-[#f20c0c] to-black px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
+          >
+            Ver portafolio
+          </Link>
+          <Link
+            href="/servicios"
+            className="inline-flex rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-[#f20c0c]/60"
+          >
+            Volver a servicios
+          </Link>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }
