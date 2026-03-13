@@ -7,18 +7,11 @@ type Props = {
   photos: string[];
 };
 
+const EAGER_LOAD_COUNT = 6;
 const HIGH_PRIORITY_COUNT = 4;
 
 export default function PhotoModalGallery({ photos }: Props) {
   const [activePhoto, setActivePhoto] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Warm the browser cache so images don't pop in while scrolling back.
-    photos.forEach((photo) => {
-      const image = new window.Image();
-      image.src = photo;
-    });
-  }, [photos]);
 
   useEffect(() => {
     document.body.style.overflow = activePhoto ? "hidden" : "auto";
@@ -49,13 +42,15 @@ export default function PhotoModalGallery({ photos }: Props) {
             aria-label={`Abrir foto ${index + 1} en modal`}
           >
             <div className="relative aspect-[4/5] w-full">
-              <img
+              <Image
                 src={photo}
                 alt={`Foto detallada de moda ${index + 1}`}
-                loading="lazy"
-                decoding="async"
+                fill
+                sizes="(max-width: 1024px) 100vw, 33vw"
+                loading={index < EAGER_LOAD_COUNT ? "eager" : "lazy"}
                 fetchPriority={index < HIGH_PRIORITY_COUNT ? "high" : "auto"}
-                className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                quality={60}
+                className="object-cover transition duration-300 group-hover:scale-105"
               />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-transparent to-transparent px-3 py-2">
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/90">Ver detalle</p>
