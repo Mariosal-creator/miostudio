@@ -7,10 +7,14 @@ type Props = {
   photos: string[];
 };
 
+const EAGER_LOAD_COUNT = 12;
+const HIGH_PRIORITY_COUNT = 4;
+
 export default function EventosCarousel({ photos }: Props) {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const slideRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [loadedPhotos, setLoadedPhotos] = useState<Record<string, boolean>>({});
 
   const scrollToIndex = (index: number) => {
     const target = slideRefs.current[index];
@@ -107,7 +111,14 @@ export default function EventosCarousel({ photos }: Props) {
               alt={`Foto de eventos ${index + 1}`}
               fill
               sizes="(max-width: 640px) 86vw, (max-width: 1024px) 62vw, 44vw"
-              className="object-cover"
+              unoptimized
+              loading={index < EAGER_LOAD_COUNT ? "eager" : "lazy"}
+              fetchPriority={index < HIGH_PRIORITY_COUNT ? "high" : "auto"}
+              quality={72}
+              onLoadingComplete={() => {
+                setLoadedPhotos((current) => (current[photo] ? current : { ...current, [photo]: true }));
+              }}
+              className={`object-cover transition-opacity duration-300 ${loadedPhotos[photo] ? "opacity-100" : "opacity-0"}`}
             />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-transparent to-transparent px-4 py-3">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/90">

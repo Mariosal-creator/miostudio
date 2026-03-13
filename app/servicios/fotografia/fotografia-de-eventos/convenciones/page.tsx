@@ -27,6 +27,7 @@ const getConvencionesGallery = () => {
 };
 
 const gallery = getConvencionesGallery();
+const heroImage = gallery[0] ?? "/portfolio/fotografia/miniaturas/convencion/54123202041_22c7e0376a_o.jpg";
 
 export default function ConvencionesPage() {
   return (
@@ -44,7 +45,7 @@ export default function ConvencionesPage() {
         <div className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-xl">
           <div className="relative aspect-[16/9] w-full">
             <Image
-              src="/portfolio/fotografia/miniaturas/eventos/54123202041_22c7e0376a_o.jpg"
+              src={heroImage}
               alt="Miniatura de fotografia de convenciones"
               fill
               sizes="(max-width: 1024px) 100vw, 896px"

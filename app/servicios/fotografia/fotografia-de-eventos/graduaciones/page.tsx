@@ -1,5 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import fs from "node:fs";
+import path from "node:path";
+import PhotoModalGallery from "./PhotoModalGallery";
+
+export const dynamic = "force-dynamic";
 
 const highlights = [
   "Retratos individuales y grupales en acto de grado",
@@ -7,14 +12,24 @@ const highlights = [
   "Entrega optimizada para albumes y publicaciones digitales",
 ];
 
-const gallery = [
-  "/portfolio/fotografia/miniaturas/eventos/Graduacion Sam-56.jpg",
-  "/portfolio/fotografia/miniaturas/eventos/Graduacion Sam-60.jpg",
-  "/portfolio/fotografia/miniaturas/eventos/Graduacion Sam-71.jpg",
-  "/portfolio/fotografia/miniaturas/eventos/Graduacion Sam-76.jpg",
-  "/portfolio/fotografia/miniaturas/eventos/Graduacion Sam-93.jpg",
-  "/portfolio/fotografia/miniaturas/eventos/Graduacion Sam-97.jpg",
-];
+const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
+
+const getGraduacionesGallery = () => {
+  try {
+    const graduacionesDir = path.join(process.cwd(), "public", "portfolio", "fotografia", "miniaturas", "graduacion");
+    const files = fs.readdirSync(graduacionesDir);
+
+    return files
+      .filter((fileName) => imageExtensions.has(path.extname(fileName).toLowerCase()))
+      .sort((a, b) => a.localeCompare(b, "es", { numeric: true }))
+      .map((fileName) => `/portfolio/fotografia/miniaturas/graduacion/${encodeURIComponent(fileName)}`);
+  } catch {
+    return [] as string[];
+  }
+};
+
+const gallery = getGraduacionesGallery();
+const heroImage = gallery[0] ?? "/portfolio/fotografia/miniaturas/graduacion/Graduacion%20Sam-95.jpg";
 
 export default function GraduacionesPage() {
   return (
@@ -32,7 +47,7 @@ export default function GraduacionesPage() {
         <div className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-xl">
           <div className="relative aspect-[16/9] w-full">
             <Image
-              src="/portfolio/fotografia/miniaturas/eventos/Graduacion Sam-95.jpg"
+              src={heroImage}
               alt="Miniatura de fotografia de graduaciones"
               fill
               sizes="(max-width: 1024px) 100vw, 896px"
@@ -53,21 +68,13 @@ export default function GraduacionesPage() {
         <section className="mt-10">
           <h2 className="text-xl font-bold text-white sm:text-2xl">Galeria detallada</h2>
           <p className="mt-2 text-sm text-gray-300">Muestra visual de sesiones y cobertura para graduaciones.</p>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {gallery.map((photo, index) => (
-              <article key={photo} className="overflow-hidden rounded-xl border border-white/10 bg-white/5">
-                <div className="relative aspect-[4/5] w-full">
-                  <Image
-                    src={photo}
-                    alt={`Foto detallada de graduaciones ${index + 1}`}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    className="object-cover transition duration-300 hover:scale-105"
-                  />
-                </div>
-              </article>
-            ))}
-          </div>
+          {gallery.length > 0 ? (
+            <PhotoModalGallery photos={gallery} />
+          ) : (
+            <p className="mt-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-gray-300">
+              No se encontraron fotos en la carpeta graduacion.
+            </p>
+          )}
         </section>
 
         <div className="mt-8 flex flex-wrap gap-3">

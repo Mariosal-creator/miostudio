@@ -1,5 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
+import fs from "node:fs";
+import path from "node:path";
+import PhotoModalGallery from "./PhotoModalGallery";
 
 const highlights = [
   "Cobertura completa de ceremonia y recepcion",
@@ -7,14 +10,24 @@ const highlights = [
   "Entrega de galeria editada para impresion y redes",
 ];
 
-const gallery = [
-  "/portfolio/fotografia/miniaturas/eventos/54122353942_3d14d02129_o.jpg",
-  "/portfolio/fotografia/miniaturas/eventos/54122408362_4a61625946_o.jpg",
-  "/portfolio/fotografia/miniaturas/eventos/54123257666_c0a7b5bf5a_o.jpg",
-  "/portfolio/fotografia/miniaturas/eventos/Graduacion Sam-64.jpg",
-  "/portfolio/fotografia/miniaturas/eventos/Graduacion Sam-69.jpg",
-  "/portfolio/fotografia/miniaturas/eventos/Graduacion Sam-85.jpg",
-];
+const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
+
+const getBodasGallery = () => {
+  try {
+    const bodasDir = path.join(process.cwd(), "public", "portfolio", "fotografia", "miniaturas", "boda");
+    const files = fs.readdirSync(bodasDir);
+
+    return files
+      .filter((fileName) => imageExtensions.has(path.extname(fileName).toLowerCase()))
+      .sort((a, b) => a.localeCompare(b, "es", { numeric: true }))
+      .map((fileName) => `/portfolio/fotografia/miniaturas/boda/${encodeURIComponent(fileName)}`);
+  } catch {
+    return [] as string[];
+  }
+};
+
+const gallery = getBodasGallery();
+const heroImage = gallery[0] ?? "/portfolio/fotografia/miniaturas/boda/1ro%20Boda%20Katty%20Y%20Micky-46.jpg";
 
 export default function BodasPage() {
   return (
@@ -32,7 +45,7 @@ export default function BodasPage() {
         <div className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-xl">
           <div className="relative aspect-[16/9] w-full">
             <Image
-              src="/portfolio/fotografia/miniaturas/eventos/Graduacion Sam-68.jpg"
+              src={heroImage}
               alt="Miniatura de fotografia de bodas"
               fill
               sizes="(max-width: 1024px) 100vw, 896px"
@@ -53,21 +66,13 @@ export default function BodasPage() {
         <section className="mt-10">
           <h2 className="text-xl font-bold text-white sm:text-2xl">Galeria detallada</h2>
           <p className="mt-2 text-sm text-gray-300">Muestra visual de cobertura para bodas y celebraciones.</p>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {gallery.map((photo, index) => (
-              <article key={photo} className="overflow-hidden rounded-xl border border-white/10 bg-white/5">
-                <div className="relative aspect-[4/5] w-full">
-                  <Image
-                    src={photo}
-                    alt={`Foto detallada de bodas ${index + 1}`}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    className="object-cover transition duration-300 hover:scale-105"
-                  />
-                </div>
-              </article>
-            ))}
-          </div>
+          {gallery.length > 0 ? (
+            <PhotoModalGallery photos={gallery} />
+          ) : (
+            <p className="mt-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-gray-300">
+              No se encontraron fotos en la carpeta boda.
+            </p>
+          )}
         </section>
 
         <div className="mt-8 flex flex-wrap gap-3">

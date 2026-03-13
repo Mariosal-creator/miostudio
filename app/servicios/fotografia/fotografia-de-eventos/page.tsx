@@ -4,6 +4,8 @@ import fs from "node:fs";
 import path from "node:path";
 import EventosCarousel from "./EventosCarousel";
 
+export const dynamic = "force-dynamic";
+
 const highlights = [
   "Cobertura integral de eventos corporativos y sociales",
   "Edicion y seleccion curada para entrega final",
@@ -15,33 +17,50 @@ const subcategoriasEventos = [
     title: "Bodas",
     description: "Cobertura documental y editorial para ceremonias, recepciones y momentos clave de pareja.",
     href: "/servicios/fotografia/fotografia-de-eventos/bodas",
-    image: "/portfolio/fotografia/miniaturas/eventos/54122353942_3d14d02129_o.jpg",
+    image: "/portfolio/fotografia/miniaturas/boda/Boda%20Jerson%20%26%20Dennise.-196.jpg",
   },
   {
     title: "Convenciones",
     description: "Registro profesional de charlas, networking, activaciones de marca y agenda institucional.",
     href: "/servicios/fotografia/fotografia-de-eventos/convenciones",
-    image: "/portfolio/fotografia/miniaturas/eventos/54123256876_d35debe49e_o.jpg",
+    image: "/portfolio/fotografia/miniaturas/convencion/54123540134_3c67f8f5a4_o.jpg",
   },
   {
     title: "Graduaciones",
     description: "Sesiones individuales y grupales para actos de grado, retratos formales y memorias academicas.",
     href: "/servicios/fotografia/fotografia-de-eventos/graduaciones",
-    image: "/portfolio/fotografia/miniaturas/eventos/54123656280_0653535f25_o.jpg",
+    image: "/portfolio/fotografia/miniaturas/graduacion/fotos%20graduaci%C3%B3n_A-81.jpg",
   },
 ];
 
 const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
 
+const galleryFolders = ["boda", "convencion", "graduacion"] as const;
+
+const shuffle = (items: string[]) => {
+  const result = [...items];
+
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [result[index], result[randomIndex]] = [result[randomIndex], result[index]];
+  }
+
+  return result;
+};
+
 const getEventosGallery = () => {
   try {
-    const eventosDir = path.join(process.cwd(), "public", "portfolio", "fotografia", "miniaturas", "convencion");
-    const files = fs.readdirSync(eventosDir);
+    const allPhotos = galleryFolders.flatMap((folder) => {
+      const folderPath = path.join(process.cwd(), "public", "portfolio", "fotografia", "miniaturas", folder);
+      const files = fs.readdirSync(folderPath);
 
-    return files
-      .filter((fileName) => imageExtensions.has(path.extname(fileName).toLowerCase()))
-      .sort((a, b) => a.localeCompare(b, "es", { numeric: true }))
-      .map((fileName) => `/portfolio/fotografia/miniaturas/convencion/${encodeURIComponent(fileName)}`);
+      return files
+        .filter((fileName) => imageExtensions.has(path.extname(fileName).toLowerCase()))
+        .sort((a, b) => a.localeCompare(b, "es", { numeric: true }))
+        .map((fileName) => `/portfolio/fotografia/miniaturas/${folder}/${encodeURIComponent(fileName)}`);
+    });
+
+    return shuffle(allPhotos);
   } catch {
     return [] as string[];
   }
@@ -105,7 +124,7 @@ export default function FotografiaDeEventosPage() {
 
         <section className="mt-10">
           <h2 className="text-xl font-bold text-white sm:text-2xl">Galeria completa de eventos</h2>
-          <p className="mt-2 text-sm text-gray-300">Se muestran todas las fotos disponibles en la carpeta convencion.</p>
+          <p className="mt-2 text-sm text-gray-300">Se muestran fotos aleatorias de bodas, convenciones y graduaciones.</p>
 
           {eventosGallery.length > 0 ? (
             <EventosCarousel photos={eventosGallery} />
