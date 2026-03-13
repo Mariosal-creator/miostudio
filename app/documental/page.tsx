@@ -21,6 +21,57 @@ type Accreditation = {
   pdfPath?: string;
 };
 
+const getYouTubeVideoId = (url: string) =>
+  url.split("/embed/")[1]?.split("?")[0] ?? "";
+
+const appendVideoParams = (url: string, params: Record<string, string>) => {
+  try {
+    const parsedUrl = new URL(url);
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (!parsedUrl.searchParams.has(key)) {
+        parsedUrl.searchParams.set(key, value);
+      }
+    });
+
+    return parsedUrl.toString();
+  } catch {
+    return url;
+  }
+};
+
+const buildHoverPreviewSrc = (videoUrl: string, youtubeVideoId: string) => {
+  if (videoUrl.includes("youtube.com/embed") && youtubeVideoId) {
+    return `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${youtubeVideoId}&modestbranding=1&rel=0&playsinline=1`;
+  }
+
+  if (videoUrl.includes("rumble.com/embed")) {
+    return appendVideoParams(videoUrl, {
+      autoplay: "2",
+      muted: "1",
+      controls: "0",
+    });
+  }
+
+  return "";
+};
+
+const buildModalVideoSrc = (videoUrl: string) => {
+  if (videoUrl.includes("youtube.com/embed")) {
+    return appendVideoParams(videoUrl, {
+      rel: "0",
+    });
+  }
+
+  if (videoUrl.includes("rumble.com/embed")) {
+    return appendVideoParams(videoUrl, {
+      autoplay: "2",
+    });
+  }
+
+  return videoUrl;
+};
+
 const brand = {
   accent: "#f20c0c",
   dark: "#1a1a1a",
@@ -51,83 +102,120 @@ const projects: Project[] = [
     id: 1,
     title: "Caminantes_ Documental",
     client: "Konrad Adenauer Stiftung",
-    tags: ["Documental testimonial", "Genero", "Vivienda digna"],
-    image: "https://img.youtube.com/vi/fyg-ccn7ohE/maxresdefault.jpg",
-    videoUrl: "https://www.youtube.com/embed/fyg-ccn7ohE",
+    tags: ["Movilidad humana", "Testimonial", "Documental social"],
+    image: "https://i.ytimg.com/vi/fyg-ccn7ohE/hqdefault.jpg",
+    videoUrl: "https://rumble.com/embed/v74vmcm/?pub=4ozray",
     objective:
-      "Visibilizar historias de mujeres que fortalecen su autonomia economica en contextos de movilidad humana, alineado a objetivos de proteccion y medios de vida.",
+      "Narrar el recorrido de personas caminantes y sus familias, mostrando retos de movilidad humana, resiliencia comunitaria y acceso a derechos.",
     methodology: [
-      "Preproduccion con enfoque etico y narrativa sensible al contexto.",
-      "Rodaje en territorio con entrevistas testimoniales y cobertura observacional.",
-      "Postproduccion con cortes validados por contraparte tecnica.",
+      "Investigacion previa de rutas, contexto local y actores comunitarios.",
+      "Rodaje en territorio con testimonios, planos de trayecto y recursos de contexto.",
+      "Montaje documental centrado en historias humanas y mensaje de incidencia.",
     ],
     deliverables: [
-      "Documental principal de 3 minutos",
-      "2 videos cortos de 45 segundos (16:9 y 9:16)",
-      "15 fotografias editadas con matriz descriptiva",
+      "Documental principal Caminantes de 3 minutos",
+      "2 clips de difusion de 45 segundos (16:9 y 9:16)",
+      "15 fotografias de apoyo narrativo con matriz descriptiva",
     ],
   },
   {
     id: 2,
-    title: "Mujeres en Movimiento",
-    client: "ONG Aliada Internacional",
-    tags: ["Migracion", "Testimonial", "Proteccion"],
-    image:
-      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1400&q=80",
-    videoUrl: "https://www.youtube.com/embed/L1gUbHzWxG8",
+    title: "Fortalecimiento Economico",
+    client: "ONU",
+    tags: ["Emprendimiento", "Medios de vida", "ONU"],
+    image: "https://i.ytimg.com/vi/7V2MzVeAvEc/hqdefault.jpg",
+    videoUrl: "https://www.youtube.com/embed/7V2MzVeAvEc",
     objective:
-      "Documentar procesos de integracion comunitaria y acceso a servicios para mujeres migrantes y sus familias.",
+      "Visibilizar resultados de iniciativas de fortalecimiento economico para mujeres y hogares en situacion de vulnerabilidad.",
     methodology: [
-      "Investigacion previa y consentimiento informado de participantes.",
-      "Grabacion en espacios seguros con protocolo de cuidado.",
-      "Edicion para piezas de incidencia y redes sociales.",
+      "Levantamiento de casos de exito y evidencia de impacto economico.",
+      "Grabacion de testimonios y procesos productivos en campo.",
+      "Edicion de piezas orientadas a rendicion de cuentas e incidencia.",
     ],
     deliverables: [
-      "Documental de 3 minutos",
-      "2 shorts vertical/horizontal",
-      "Banco fotografico de 15 imagenes",
+      "Video principal Fortalecimiento Economico de 3 minutos",
+      "2 versiones cortas para redes y difusion institucional",
+      "15 fotografias de emprendimiento y contexto",
     ],
   },
   {
     id: 3,
-    title: "Autonomia que Transforma",
-    client: "Programa de Cooperacion Regional",
-    tags: ["Autonomia economica", "ONG", "Impacto social"],
-    image:
-      "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1400&q=80",
-    videoUrl: "https://www.youtube.com/embed/fJk7KtLVDGE",
+    title: "Autosostenibilidad",
+    client: "ADRA",
+    tags: ["Autosostenibilidad", "ADRA", "Impacto social"],
+    image: "https://i.ytimg.com/vi/g_9FkCsgSvo/hqdefault.jpg",
+    videoUrl: "https://www.youtube.com/embed/g_9FkCsgSvo",
     objective:
-      "Mostrar resultados de programas de emprendimiento para mujeres en situacion de vulnerabilidad.",
+      "Mostrar como familias y grupos productivos fortalecen su autosostenibilidad mediante capacitacion, ahorro y emprendimiento.",
     methodology: [
-      "Guion orientado a indicadores de cambio y sostenibilidad.",
-      "Rodaje con entrevistas y recursos de apoyo visual.",
-      "Entrega de versiones limpias y subtituladas.",
+      "Diseno narrativo basado en indicadores de sostenibilidad y autonomia.",
+      "Rodaje de actividades productivas, testimonios y resultados verificables.",
+      "Postproduccion con enfoque en aprendizajes y continuidad del modelo.",
     ],
     deliverables: [
-      "Pieza principal 3 min con subtitulos",
-      "2 videos de 45 seg para pauta",
-      "15 fotos de campo y retrato",
+      "Video principal Autosostenibilidad de 3 minutos",
+      "2 capsulas de 45 segundos para convocatoria y reporte",
+      "15 fotos de procesos productivos y retratos",
     ],
   },
   {
     id: 4,
-    title: "Territorio y Derechos",
-    client: "Red de Cooperacion y Vivienda",
-    tags: ["Derechos humanos", "Vivienda", "Comunidad"],
-    image:
-      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1400&q=80",
-    videoUrl: "https://www.youtube.com/embed/-rpHP2Q6Tow",
+    title: "Historia Emprendedoras",
+    client: "ADRA",
+    tags: ["Emprendedoras", "Historias de vida", "ADRA"],
+    image: "https://i.ytimg.com/vi/bkLoMb13cV4/hqdefault.jpg",
+    videoUrl: "https://www.youtube.com/embed/bkLoMb13cV4",
     objective:
-      "Evidenciar iniciativas de vivienda digna y cohesion comunitaria desde la voz de lideresas territoriales.",
+      "Contar historias de emprendedoras que transforman su economia familiar y su comunidad a traves de iniciativas productivas.",
     methodology: [
-      "Levantamiento de testimonios con enfoque participativo.",
-      "Cobertura audiovisual de procesos en territorio.",
-      "Post con narrativa de resultados y aprendizajes.",
+      "Seleccion de perfiles y entrevistas en profundidad con enfoque humano.",
+      "Cobertura audiovisual de su rutina productiva, ventas y entorno familiar.",
+      "Edicion tipo storytelling con mensajes de inspiracion y evidencia de cambio.",
     ],
     deliverables: [
-      "Documental corto de 3 min",
-      "2 derivados de 45 seg",
-      "15 fotos editadas en JPG",
+      "Video principal Historia Emprendedoras de 3 minutos",
+      "2 versiones cortas para redes y presentaciones",
+      "15 fotografias documentales editadas en JPG",
+    ],
+  },
+  {
+    id: 5,
+    title: "Historias de Exito",
+    client: "ONU",
+    tags: ["Liderazgo", "Genero", "Comunidad"],
+    image: "https://i.ytimg.com/vi/pf3HdwDzOtM/hqdefault.jpg",
+    videoUrl: "https://www.youtube.com/embed/pf3HdwDzOtM",
+    objective:
+      "Documentar historias de mujeres lideresas que impulsan procesos comunitarios de proteccion, participacion y desarrollo local.",
+    methodology: [
+      "Mapeo de lideresas y coordinacion de entrevistas con enfoque etico.",
+      "Rodaje en territorio con cobertura de actividades comunitarias.",
+      "Edicion con narrativa de liderazgo, incidencia y resultados.",
+    ],
+    deliverables: [
+      "Video principal Mujeres que Lideran de 3 minutos",
+      "2 piezas cortas para difusion en redes y eventos",
+      "15 fotografias de actividades y retratos",
+    ],
+  },
+  {
+    id: 6,
+    title: "Voces para la Proteccion",
+    client: "Programa de Cooperacion",
+    tags: ["Proteccion", "Derechos", "Incidencia"],
+    image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=1400&q=80",
+    videoUrl: "https://www.youtube.com/embed/L1gUbHzWxG8",
+    objective:
+      "Visibilizar testimonios y acciones de proteccion para poblacion en situacion de riesgo, destacando rutas de atencion y apoyo.",
+    methodology: [
+      "Diseno de guion testimonial alineado a mensajes de derechos y proteccion.",
+      "Entrevistas y cobertura de acciones institucionales en campo.",
+      "Postproduccion orientada a sensibilizacion y rendicion de cuentas.",
+    ],
+    deliverables: [
+      "Video principal Voces para la Proteccion de 3 minutos",
+      "2 clips breves para pauta institucional",
+      "15 fotografias editadas con matriz descriptiva",
     ],
   },
 ];
@@ -162,6 +250,7 @@ const team = [
 export default function DocumentalPage() {
   const [activeProjectId, setActiveProjectId] = useState<number | null>(null);
   const [activePdf, setActivePdf] = useState<Accreditation | null>(null);
+  const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
 
   const activeProject = useMemo(
     () => projects.find((item) => item.id === activeProjectId) ?? null,
@@ -241,32 +330,71 @@ export default function DocumentalPage() {
           <div className="mx-auto max-w-6xl">
             <h2 className="text-2xl font-bold sm:text-3xl">Proyectos destacados</h2>
             <div className="mt-8 grid gap-6 md:grid-cols-2">
-              {projects.map((project) => (
-                <article
-                  key={project.id}
-                  className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-                >
-                  <img src={project.image} alt={project.title} className="h-52 w-full object-cover" />
-                  <div className="p-5">
-                    <h3 className="text-xl font-bold">{project.title}</h3>
-                    <p className="mt-1 text-sm text-black/70">Cliente: {project.client}</p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <span key={tag} className="rounded-full border border-black/10 bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-black/80">
-                          {tag}
-                        </span>
-                      ))}
+              {projects.map((project) => {
+                const videoId = getYouTubeVideoId(project.videoUrl);
+                const isYouTubeProject = project.videoUrl.includes("youtube.com/embed");
+                const isHovered = hoveredProjectId === project.id;
+                const hoverPreviewSrc = buildHoverPreviewSrc(project.videoUrl, videoId);
+
+                return (
+                  <article
+                    key={project.id}
+                    className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                    onMouseEnter={() => setHoveredProjectId(project.id)}
+                    onMouseLeave={() => setHoveredProjectId((current) => (current === project.id ? null : current))}
+                  >
+                    <div className="relative h-52 w-full overflow-hidden bg-black">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="h-52 w-full object-cover"
+                        onError={(event) => {
+                          const target = event.currentTarget;
+
+                          if (!isYouTubeProject || !videoId) {
+                            return;
+                          }
+
+                          const fallback = `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`;
+
+                          if (target.src !== fallback) {
+                            target.src = fallback;
+                          }
+                        }}
+                      />
+
+                      {hoverPreviewSrc && (
+                        <iframe
+                          key={`${project.id}-${isHovered ? "hover" : "idle"}`}
+                          src={isHovered ? hoverPreviewSrc : "about:blank"}
+                          title={`Preview ${project.title}`}
+                          className={`pointer-events-none absolute inset-0 h-full w-full transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}
+                          allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                          tabIndex={-1}
+                        />
+                      )}
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => setActiveProjectId(project.id)}
-                      className="mt-5 inline-flex rounded-full bg-[#1a1a1a] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#f20c0c]"
-                    >
-                      Ver detalles
-                    </button>
-                  </div>
-                </article>
-              ))}
+                    <div className="p-5">
+                      <h3 className="text-xl font-bold">{project.title}</h3>
+                      <p className="mt-1 text-sm text-black/70">Cliente: {project.client}</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {project.tags.map((tag) => (
+                          <span key={tag} className="rounded-full border border-black/10 bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-black/80">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setActiveProjectId(project.id)}
+                        className="mt-5 inline-flex rounded-full bg-[#1a1a1a] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#f20c0c]"
+                      >
+                        Ver detalles
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -446,7 +574,7 @@ export default function DocumentalPage() {
               <div className="aspect-video overflow-hidden rounded-xl border border-black/10">
                 <iframe
                   className="h-full w-full"
-                  src={`${activeProject.videoUrl}?rel=0`}
+                  src={buildModalVideoSrc(activeProject.videoUrl)}
                   title={activeProject.title}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
