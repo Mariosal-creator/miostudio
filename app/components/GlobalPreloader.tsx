@@ -115,7 +115,10 @@ export default function GlobalPreloader() {
   }, []);
 
   useEffect(() => {
-    setVisible(true);
+    const showTimer = window.setTimeout(() => {
+      setVisible(true);
+    }, 0);
+
     unlockPreloaderAudio()
       .then((unlocked) => {
         if (unlocked) {
@@ -128,7 +131,10 @@ export default function GlobalPreloader() {
       setVisible(false);
     }, 2000);
 
-    return () => window.clearTimeout(timer);
+    return () => {
+      window.clearTimeout(showTimer);
+      window.clearTimeout(timer);
+    };
   }, [pathname]);
 
   if (!visible) {

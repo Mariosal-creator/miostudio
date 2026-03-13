@@ -48,7 +48,6 @@ function PortfolioVideosContent() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [modalVideo, setModalVideo] = useState<string | null>(null);
   const [esMobile, setEsMobile] = useState(false);
 
   const validVideoIds = useMemo(
@@ -61,26 +60,18 @@ function PortfolioVideosContent() {
     []
   );
 
+  const selectedVideo = searchParams.get("video");
+  const modalVideo = selectedVideo && validVideoIds.has(selectedVideo) ? selectedVideo : null;
+
   const modalEsVertical = modalVideo ? videosVerticalesIds.has(modalVideo) : false;
 
   useEffect(() => {
-    const selectedVideo = searchParams.get("video");
+    document.body.style.overflow = modalVideo ? "hidden" : "auto";
 
-    if (selectedVideo && validVideoIds.has(selectedVideo)) {
-      setModalVideo(selectedVideo);
-      document.body.style.overflow = "hidden";
-      return;
-    }
-
-    setModalVideo(null);
-    document.body.style.overflow = "auto";
-  }, [searchParams, validVideoIds]);
-
-  useEffect(() => {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, []);
+  }, [modalVideo]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
@@ -95,14 +86,10 @@ function PortfolioVideosContent() {
   }, []);
 
   const abrirModal = (videoId: string) => {
-    setModalVideo(videoId);
-    document.body.style.overflow = "hidden";
     router.replace(`${pathname}?video=${videoId}`, { scroll: false });
   };
 
   const cerrarModal = () => {
-    setModalVideo(null);
-    document.body.style.overflow = "auto";
     router.replace(pathname, { scroll: false });
   };
 

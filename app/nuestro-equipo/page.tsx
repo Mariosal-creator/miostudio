@@ -55,15 +55,18 @@ export default function NuestroEquipoPage() {
   const [modalNombre, setModalNombre] = useState<string>("");
 
   useEffect(() => {
+    document.body.style.overflow = modalImagen ? "hidden" : "auto";
+
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, []);
+  }, [modalImagen]);
 
   useEffect(() => {
     const manejarEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        cerrarModal();
+        setModalImagen(null);
+        setModalNombre("");
       }
     };
 
@@ -77,13 +80,11 @@ export default function NuestroEquipoPage() {
     }
     setModalImagen(src);
     setModalNombre(nombre);
-    document.body.style.overflow = "hidden";
   };
 
   const cerrarModal = () => {
     setModalImagen(null);
     setModalNombre("");
-    document.body.style.overflow = "auto";
   };
 
   return (
