@@ -1,8 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import fs from "node:fs";
-import path from "node:path";
 import PhotoModalGallery from "./PhotoModalGallery";
+import { modaPhotos } from "@/app/data/photoCatalog";
 
 const highlights = [
   "Direccion de poses y estilismo para destacar prendas y actitud",
@@ -10,51 +9,7 @@ const highlights = [
   "Entrega lista para lookbook, e-commerce y comunicacion de marca",
 ];
 
-const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
-
-type ModaImageEntry = {
-  url: string;
-  modifiedTime: number;
-};
-
-const toWebPath = (segments: string[]) => segments.map((segment) => encodeURIComponent(segment)).join("/");
-
-const walkModaImages = (directoryPath: string, relativeSegments: string[] = []): ModaImageEntry[] => {
-  const entries = fs.readdirSync(directoryPath, { withFileTypes: true });
-
-  return entries.flatMap((entry) => {
-    const nextRelativeSegments = [...relativeSegments, entry.name];
-    const fullPath = path.join(directoryPath, entry.name);
-
-    if (entry.isDirectory()) {
-      return walkModaImages(fullPath, nextRelativeSegments);
-    }
-
-    if (!imageExtensions.has(path.extname(entry.name).toLowerCase())) {
-      return [];
-    }
-
-    return [
-      {
-        url: `/portfolio/fotografia/miniaturas/studio/moda/${toWebPath(nextRelativeSegments)}`,
-        modifiedTime: fs.statSync(fullPath).mtimeMs,
-      },
-    ];
-  });
-};
-
-const getModaGallery = () => {
-  try {
-    const modaDir = path.join(process.cwd(), "public", "portfolio", "fotografia", "miniaturas", "studio", "moda");
-    return walkModaImages(modaDir)
-      .sort((a, b) => b.modifiedTime - a.modifiedTime)
-      .map(({ url }) => url);
-  } catch {
-    return [] as string[];
-  }
-};
-
-const gallery = getModaGallery();
+const gallery = [...modaPhotos];
 const heroImage = gallery[0] ?? "/portfolio/fotografia/miniaturas/studio/moda/Ropa%201%20Edit-7.jpg";
 
 export default function FotografiaDeModaPage() {

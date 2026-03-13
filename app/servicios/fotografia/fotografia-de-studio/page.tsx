@@ -1,8 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import fs from "node:fs";
-import path from "node:path";
 import EventosCarousel from "../fotografia-de-eventos/EventosCarousel";
+import { studioPhotos } from "@/app/data/photoCatalog";
 
 const highlights = [
   "Set de iluminacion controlada para resultados consistentes",
@@ -19,8 +18,6 @@ const subcategoriasStudio = [
   },
 ];
 
-const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
-
 const shuffle = (items: string[]) => {
   const result = [...items];
 
@@ -32,40 +29,7 @@ const shuffle = (items: string[]) => {
   return result;
 };
 
-const getStudioGallery = () => {
-  try {
-    const studioDir = path.join(process.cwd(), "public", "portfolio", "fotografia", "miniaturas", "studio");
-    const collectStudioPhotos = (directoryPath: string, relativePath = ""): string[] => {
-      const entries = fs.readdirSync(directoryPath, { withFileTypes: true });
-
-      return entries.flatMap((entry) => {
-        const nextRelativePath = relativePath ? `${relativePath}/${entry.name}` : entry.name;
-        const fullPath = path.join(directoryPath, entry.name);
-
-        if (entry.isDirectory()) {
-          return collectStudioPhotos(fullPath, nextRelativePath);
-        }
-
-        if (!imageExtensions.has(path.extname(entry.name).toLowerCase())) {
-          return [];
-        }
-
-        return `/portfolio/fotografia/miniaturas/studio/${nextRelativePath
-          .split("/")
-          .map((segment) => encodeURIComponent(segment))
-          .join("/")}`;
-      });
-    };
-
-    const allPhotos = collectStudioPhotos(studioDir);
-
-    return shuffle(allPhotos);
-  } catch {
-    return [] as string[];
-  }
-};
-
-const studioGallery = getStudioGallery();
+const studioGallery = shuffle([...studioPhotos]);
 
 export default function FotografiaDeStudioPage() {
   return (

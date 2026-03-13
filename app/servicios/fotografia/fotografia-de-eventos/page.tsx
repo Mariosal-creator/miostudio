@@ -1,8 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import fs from "node:fs";
-import path from "node:path";
 import EventosCarousel from "./EventosCarousel";
+import { bodaPhotos, convencionPhotos, graduacionPhotos } from "@/app/data/photoCatalog";
 
 const highlights = [
   "Cobertura integral de eventos corporativos y sociales",
@@ -31,10 +30,6 @@ const subcategoriasEventos = [
   },
 ];
 
-const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
-
-const galleryFolders = ["boda", "convencion", "graduacion"] as const;
-
 const shuffle = (items: string[]) => {
   const result = [...items];
 
@@ -46,25 +41,7 @@ const shuffle = (items: string[]) => {
   return result;
 };
 
-const getEventosGallery = () => {
-  try {
-    const allPhotos = galleryFolders.flatMap((folder) => {
-      const folderPath = path.join(process.cwd(), "public", "portfolio", "fotografia", "miniaturas", folder);
-      const files = fs.readdirSync(folderPath);
-
-      return files
-        .filter((fileName) => imageExtensions.has(path.extname(fileName).toLowerCase()))
-        .sort((a, b) => a.localeCompare(b, "es", { numeric: true }))
-        .map((fileName) => `/portfolio/fotografia/miniaturas/${folder}/${encodeURIComponent(fileName)}`);
-    });
-
-    return shuffle(allPhotos);
-  } catch {
-    return [] as string[];
-  }
-};
-
-const eventosGallery = getEventosGallery();
+const eventosGallery = shuffle([...bodaPhotos, ...convencionPhotos, ...graduacionPhotos]);
 
 export default function FotografiaDeEventosPage() {
   return (
