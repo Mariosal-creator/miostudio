@@ -4,8 +4,6 @@ import fs from "node:fs";
 import path from "node:path";
 import EventosCarousel from "../fotografia-de-eventos/EventosCarousel";
 
-export const dynamic = "force-dynamic";
-
 const highlights = [
   "Set de iluminacion controlada para resultados consistentes",
   "Direccion de poses y composicion segun objetivo de marca",

@@ -4,8 +4,6 @@ import fs from "node:fs";
 import path from "node:path";
 import PhotoModalGallery from "./PhotoModalGallery";
 
-export const dynamic = "force-dynamic";
-
 const highlights = [
   "Direccion de poses y estilismo para destacar prendas y actitud",
   "Set de estudio con iluminacion editorial y control de color",

@@ -4,8 +4,6 @@ import fs from "node:fs";
 import path from "node:path";
 import EventosCarousel from "./EventosCarousel";
 
-export const dynamic = "force-dynamic";
-
 const highlights = [
   "Cobertura integral de eventos corporativos y sociales",
   "Edicion y seleccion curada para entrega final",
