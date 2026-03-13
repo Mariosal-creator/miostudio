@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -95,6 +95,12 @@ const accreditations: Accreditation[] = [
     label: "Equipamiento profesional: camara 4K, dron, audio pro, suite de edicion",
     pdfPath: "/documentos/equipos.pdf",
   },
+];
+
+const photoCarousel = [
+  "/fotosavsi/Ismael%20con%20camara%20viaje.jpg",
+  "/fotosavsi/Ismael%20con%20camara%20viajes.jpg",
+  "/fotosavsi/Ismael%20con%20camara%20viajes-6.jpg",
 ];
 
 const projects: Project[] = [
@@ -251,11 +257,92 @@ export default function DocumentalPage() {
   const [activeProjectId, setActiveProjectId] = useState<number | null>(null);
   const [activePdf, setActivePdf] = useState<Accreditation | null>(null);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
+  const [canHoverPreview, setCanHoverPreview] = useState(false);
+  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const photoItemRefs = useRef<Array<HTMLElement | null>>([]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+    const updateCanHoverPreview = () => {
+      setCanHoverPreview(mediaQuery.matches);
+      if (!mediaQuery.matches) {
+        setHoveredProjectId(null);
+      }
+    };
+
+    updateCanHoverPreview();
+    mediaQuery.addEventListener("change", updateCanHoverPreview);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateCanHoverPreview);
+    };
+  }, []);
 
   const activeProject = useMemo(
     () => projects.find((item) => item.id === activeProjectId) ?? null,
     [activeProjectId]
   );
+
+  const scrollCarousel = (direction: "left" | "right") => {
+    const container = carouselRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    const amount = Math.round(container.clientWidth * 0.82);
+    container.scrollBy({
+      left: direction === "left" ? -amount : amount,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollToPhoto = (index: number) => {
+    const target = photoItemRefs.current[index];
+    target?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
+
+  useEffect(() => {
+    const container = carouselRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    const updateActivePhoto = () => {
+      const containerCenter = container.getBoundingClientRect().left + container.clientWidth / 2;
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      photoItemRefs.current.forEach((item, index) => {
+        if (!item) {
+          return;
+        }
+
+        const itemRect = item.getBoundingClientRect();
+        const itemCenter = itemRect.left + itemRect.width / 2;
+        const distance = Math.abs(itemCenter - containerCenter);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      setActivePhotoIndex(closestIndex);
+    };
+
+    updateActivePhoto();
+    container.addEventListener("scroll", updateActivePhoto, { passive: true });
+    window.addEventListener("resize", updateActivePhoto);
+
+    return () => {
+      container.removeEventListener("scroll", updateActivePhoto);
+      window.removeEventListener("resize", updateActivePhoto);
+    };
+  }, []);
 
   return (
     <>
@@ -271,7 +358,7 @@ export default function DocumentalPage() {
             <span className="inline-flex rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/90">
               Especialistas en proyectos de cooperacion internacional
             </span>
-            <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
+            <h1 className="mt-5 max-w-4xl text-3xl font-black leading-tight sm:text-5xl lg:text-6xl">
               Portafolio para Licitaciones y ONG
             </h1>
             <p className="mt-5 max-w-3xl text-base text-white/85 sm:text-lg">
@@ -279,7 +366,7 @@ export default function DocumentalPage() {
             </p>
             <a
               href="#proyectos"
-              className="mt-8 inline-flex rounded-full bg-[#f20c0c] px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:brightness-110"
+              className="mt-8 inline-flex rounded-full bg-[#f20c0c] px-5 py-3 text-xs font-bold uppercase tracking-wide text-white transition hover:brightness-110 sm:px-6 sm:text-sm"
             >
               Ver proyectos destacados
             </a>
@@ -340,8 +427,16 @@ export default function DocumentalPage() {
                   <article
                     key={project.id}
                     className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-                    onMouseEnter={() => setHoveredProjectId(project.id)}
-                    onMouseLeave={() => setHoveredProjectId((current) => (current === project.id ? null : current))}
+                    onMouseEnter={() => {
+                      if (canHoverPreview) {
+                        setHoveredProjectId(project.id);
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      if (canHoverPreview) {
+                        setHoveredProjectId((current) => (current === project.id ? null : current));
+                      }
+                    }}
                   >
                     <div className="relative h-52 w-full overflow-hidden bg-black">
                       <img
@@ -363,7 +458,7 @@ export default function DocumentalPage() {
                         }}
                       />
 
-                      {hoverPreviewSrc && (
+                      {canHoverPreview && hoverPreviewSrc && (
                         <iframe
                           key={`${project.id}-${isHovered ? "hover" : "idle"}`}
                           src={isHovered ? hoverPreviewSrc : "about:blank"}
@@ -372,6 +467,12 @@ export default function DocumentalPage() {
                           allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
                           tabIndex={-1}
                         />
+                      )}
+
+                      {!canHoverPreview && (
+                        <span className="absolute bottom-3 right-3 rounded-full bg-black/75 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">
+                          Toca Ver detalles
+                        </span>
                       )}
                     </div>
                     <div className="p-5">
@@ -396,6 +497,92 @@ export default function DocumentalPage() {
                 );
               })}
             </div>
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden bg-gradient-to-b from-[#0f0f0f] via-black to-[#151515] px-4 py-14 sm:px-6 lg:px-8">
+          <div className="pointer-events-none absolute inset-0 opacity-40">
+            <div className="absolute left-[-12%] top-12 h-64 w-64 rounded-full bg-[#f20c0c]/30 blur-3xl" />
+            <div className="absolute bottom-8 right-[-10%] h-64 w-64 rounded-full bg-white/20 blur-3xl" />
+          </div>
+
+          <div className="relative z-10 mx-auto max-w-6xl">
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/60">Galeria destacada</p>
+                <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Carrusel fotografico</h2>
+                <p className="mt-2 text-sm text-white/75 sm:text-base">{photoCarousel.length} imagenes de referencia para documentales y cobertura en territorio.</p>
+              </div>
+              <div className="hidden items-center gap-2 md:flex">
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel("left")}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur transition hover:border-[#f20c0c] hover:bg-[#f20c0c]"
+                  aria-label="Desplazar carrusel a la izquierda"
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel("right")}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur transition hover:border-[#f20c0c] hover:bg-[#f20c0c]"
+                  aria-label="Desplazar carrusel a la derecha"
+                >
+                  →
+                </button>
+              </div>
+            </div>
+
+            <div
+              ref={carouselRef}
+              className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {photoCarousel.map((photo, index) => (
+                <article
+                  key={photo}
+                  ref={(item) => {
+                    photoItemRefs.current[index] = item;
+                  }}
+                  className={`group relative h-64 w-[82%] shrink-0 snap-center overflow-hidden rounded-2xl border bg-black shadow-sm transition duration-500 sm:h-72 sm:w-[48%] lg:h-80 lg:w-[31%] ${
+                    activePhotoIndex === index
+                      ? "scale-[1.02] border-[#f20c0c]/70 shadow-[0_20px_60px_rgba(242,12,12,0.3)]"
+                      : "scale-[0.96] border-white/10 opacity-85"
+                  }`}
+                >
+                  <img
+                    src={photo}
+                    alt={`Foto de portafolio ${index + 1}`}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 py-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/90">Foto {index + 1} de {photoCarousel.length}</p>
+                  </div>
+                  <div className={`pointer-events-none absolute inset-0 border transition duration-500 ${activePhotoIndex === index ? "border-white/35" : "border-transparent"}`} />
+                  <div className={`absolute right-3 top-3 h-2.5 w-2.5 rounded-full ${activePhotoIndex === index ? "bg-[#f20c0c] shadow-[0_0_12px_rgba(242,12,12,0.9)]" : "bg-white/30"}`} />
+                </article>
+              ))}
+            </div>
+
+            <div className="mt-1 flex items-center justify-center gap-2">
+              {photoCarousel.map((photo, index) => (
+                <button
+                  key={`dot-${photo}`}
+                  type="button"
+                  onClick={() => scrollToPhoto(index)}
+                  className={`h-2.5 rounded-full transition-all ${activePhotoIndex === index ? "w-8 bg-[#f20c0c]" : "w-2.5 bg-white/35 hover:bg-white/60"}`}
+                  aria-label={`Ir a foto ${index + 1}`}
+                />
+              ))}
+            </div>
+
+            <div className="mt-4 h-[2px] w-full overflow-hidden rounded-full bg-white/20">
+              <div
+                className="h-full rounded-full bg-[#f20c0c] transition-all duration-300"
+                style={{ width: `${((activePhotoIndex + 1) / photoCarousel.length) * 100}%` }}
+              />
+            </div>
+            <p className="mt-3 text-center text-xs text-white/65">Desliza para explorar toda la galeria</p>
           </div>
         </section>
 
@@ -447,40 +634,41 @@ export default function DocumentalPage() {
               <table className="min-w-full text-left text-sm">
                 <thead className="bg-[#1a1a1a] text-white">
                   <tr>
-                    <th className="px-6 py-3 font-semibold">Producto</th>
-                    <th className="px-6 py-3 font-semibold">Especificacion</th>
-                    <th className="px-6 py-3 font-semibold">Formato</th>
-                    <th className="px-6 py-3 font-semibold">Incluye</th>
+                    <th className="px-4 py-3 font-semibold sm:px-6">Producto</th>
+                    <th className="px-4 py-3 font-semibold sm:px-6">Especificacion</th>
+                    <th className="px-4 py-3 font-semibold sm:px-6">Formato</th>
+                    <th className="px-4 py-3 font-semibold sm:px-6">Incluye</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="border-t border-black/10">
-                    <td className="px-6 py-4 font-semibold">Documental principal</td>
-                    <td className="px-6 py-4">3 min</td>
-                    <td className="px-6 py-4">16:9</td>
-                    <td className="px-6 py-4">Con y sin subtitulos, .SRT incluido</td>
+                    <td className="px-4 py-4 font-semibold sm:px-6">Documental principal</td>
+                    <td className="px-4 py-4 sm:px-6">3 min</td>
+                    <td className="px-4 py-4 sm:px-6">16:9</td>
+                    <td className="px-4 py-4 sm:px-6">Con y sin subtitulos, .SRT incluido</td>
                   </tr>
                   <tr className="border-t border-black/10 bg-black/[0.02]">
-                    <td className="px-6 py-4 font-semibold">Videos cortos</td>
-                    <td className="px-6 py-4">45 seg x 2 unidades</td>
-                    <td className="px-6 py-4">16:9 y 9:16</td>
-                    <td className="px-6 py-4">Versiones clean para pauta</td>
+                    <td className="px-4 py-4 font-semibold sm:px-6">Videos cortos</td>
+                    <td className="px-4 py-4 sm:px-6">45 seg x 2 unidades</td>
+                    <td className="px-4 py-4 sm:px-6">16:9 y 9:16</td>
+                    <td className="px-4 py-4 sm:px-6">Versiones clean para pauta</td>
                   </tr>
                   <tr className="border-t border-black/10">
-                    <td className="px-6 py-4 font-semibold">Fotografia</td>
-                    <td className="px-6 py-4">15 imagenes</td>
-                    <td className="px-6 py-4">JPG 20MP minimo</td>
-                    <td className="px-6 py-4">Matriz descriptiva</td>
+                    <td className="px-4 py-4 font-semibold sm:px-6">Fotografia</td>
+                    <td className="px-4 py-4 sm:px-6">15 imagenes</td>
+                    <td className="px-4 py-4 sm:px-6">JPG 20MP minimo</td>
+                    <td className="px-4 py-4 sm:px-6">Matriz descriptiva</td>
                   </tr>
                   <tr className="border-t border-black/10 bg-black/[0.02]">
-                    <td className="px-6 py-4 font-semibold">Material en bruto</td>
-                    <td className="px-6 py-4">Mejores tomas seleccionadas</td>
-                    <td className="px-6 py-4">Carpetas por categoria</td>
-                    <td className="px-6 py-4">Ordenado para revision de contraparte</td>
+                    <td className="px-4 py-4 font-semibold sm:px-6">Material en bruto</td>
+                    <td className="px-4 py-4 sm:px-6">Mejores tomas seleccionadas</td>
+                    <td className="px-4 py-4 sm:px-6">Carpetas por categoria</td>
+                    <td className="px-4 py-4 sm:px-6">Ordenado para revision de contraparte</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            <p className="px-4 py-3 text-xs text-black/60 sm:hidden">Desliza horizontalmente para ver toda la tabla.</p>
           </div>
         </section>
 
@@ -556,10 +744,10 @@ export default function DocumentalPage() {
       <Footer />
 
       {activeProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4 py-8" role="dialog" aria-modal="true">
-          <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-2xl bg-white shadow-2xl">
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-black/10 bg-white px-5 py-4">
-              <h3 className="text-lg font-bold">{activeProject.title}</h3>
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 px-0 py-0 sm:items-center sm:px-4 sm:py-8" role="dialog" aria-modal="true">
+          <div className="h-[92dvh] w-full max-w-4xl overflow-y-auto rounded-t-2xl bg-white shadow-2xl sm:h-auto sm:max-h-[90vh] sm:rounded-2xl">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-black/10 bg-white px-4 py-3 sm:px-5 sm:py-4">
+              <h3 className="text-base font-bold sm:text-lg">{activeProject.title}</h3>
               <button
                 type="button"
                 onClick={() => setActiveProjectId(null)}
@@ -570,7 +758,7 @@ export default function DocumentalPage() {
               </button>
             </div>
 
-            <div className="space-y-6 p-5 sm:p-7">
+            <div className="space-y-5 p-4 sm:space-y-6 sm:p-7">
               <div className="aspect-video overflow-hidden rounded-xl border border-black/10">
                 <iframe
                   className="h-full w-full"
@@ -608,13 +796,13 @@ export default function DocumentalPage() {
               <div className="flex flex-wrap gap-3 pt-2">
                 <a
                   href="#proyectos"
-                  className="inline-flex rounded-full bg-black px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#f20c0c]"
+                  className="inline-flex w-full justify-center rounded-full bg-black px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#f20c0c] sm:w-auto"
                 >
                   Ver proyecto completo
                 </a>
                 <a
                   href="mailto:contacto@moistudio.com?subject=Solicitud%20de%20propuesta%20similar"
-                  className="inline-flex rounded-full border border-black/15 px-5 py-2 text-sm font-semibold text-black transition hover:border-[#f20c0c] hover:text-[#f20c0c]"
+                  className="inline-flex w-full justify-center rounded-full border border-black/15 px-5 py-2 text-sm font-semibold text-black transition hover:border-[#f20c0c] hover:text-[#f20c0c] sm:w-auto"
                 >
                   Solicitar propuesta similar
                 </a>
@@ -631,33 +819,33 @@ export default function DocumentalPage() {
       )}
 
       {activePdf?.pdfPath && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/85 px-3 py-5 sm:px-6 sm:py-8" role="dialog" aria-modal="true">
-          <div className="flex h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-[#101010] shadow-2xl">
+        <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/85 px-0 py-0 sm:items-center sm:px-6 sm:py-8" role="dialog" aria-modal="true">
+          <div className="flex h-[94dvh] w-full max-w-6xl flex-col overflow-hidden rounded-t-2xl bg-[#101010] shadow-2xl sm:h-[92vh] sm:rounded-2xl">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-black px-4 py-3 text-white sm:px-5">
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-white/60">Visualizador PDF</p>
                 <h3 className="text-sm font-semibold sm:text-base">{activePdf.label}</h3>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex w-full flex-wrap gap-2 sm:w-auto">
                 <a
                   href={activePdf.pdfPath}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex rounded-full border border-white/25 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:border-white"
+                  className="inline-flex w-full justify-center rounded-full border border-white/25 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:border-white sm:w-auto"
                 >
                   Abrir en pestana
                 </a>
                 <a
                   href={activePdf.pdfPath}
                   download
-                  className="inline-flex rounded-full bg-[#f20c0c] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:brightness-110"
+                  className="inline-flex w-full justify-center rounded-full bg-[#f20c0c] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:brightness-110 sm:w-auto"
                 >
                   Descargar
                 </a>
                 <button
                   type="button"
                   onClick={() => setActivePdf(null)}
-                  className="inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-black transition hover:bg-white/90"
+                  className="inline-flex w-full justify-center rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-black transition hover:bg-white/90 sm:w-auto"
                 >
                   Cerrar
                 </button>
