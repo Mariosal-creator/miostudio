@@ -55,13 +55,15 @@ const studioPhotos = walkImages("studio").map((x) => x.url);
 const modaPhotos = walkImages("studio/moda")
   .sort((a, b) => b.mtime - a.mtime)
   .map((x) => x.url);
+const gastronomiaPhotos = listImages("gastronomia");
 
 const ts =
   `export const bodaPhotos = ${JSON.stringify(bodaPhotos, null, 2)} as const;\n\n` +
   `export const convencionPhotos = ${JSON.stringify(convencionPhotos, null, 2)} as const;\n\n` +
   `export const graduacionPhotos = ${JSON.stringify(graduacionPhotos, null, 2)} as const;\n\n` +
   `export const studioPhotos = ${JSON.stringify(studioPhotos, null, 2)} as const;\n\n` +
-  `export const modaPhotos = ${JSON.stringify(modaPhotos, null, 2)} as const;\n`;
+  `export const modaPhotos = ${JSON.stringify(modaPhotos, null, 2)} as const;\n\n` +
+  `export const gastronomiaPhotos = ${JSON.stringify(gastronomiaPhotos, null, 2)} as const;\n`;
 
 const out = path.join(root, "app", "data", "photoCatalog.ts");
 fs.mkdirSync(path.dirname(out), { recursive: true });

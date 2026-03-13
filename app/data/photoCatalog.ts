@@ -207,3 +207,10 @@ export const modaPhotos = [
   "/portfolio/fotografia/miniaturas/studio/moda/Ropa%201%20Edit-6.jpg",
   "/portfolio/fotografia/miniaturas/studio/moda/Ropa%201%20Edit-5.jpg"
 ] as const;
+
+export const gastronomiaPhotos = [
+  "/portfolio/fotografia/miniaturas/gastronomia/fotogastonomia4.jpg",
+  "/portfolio/fotografia/miniaturas/gastronomia/fotogastronomia1.jpg",
+  "/portfolio/fotografia/miniaturas/gastronomia/fotogastronomia2.jpg",
+  "/portfolio/fotografia/miniaturas/gastronomia/fotogastronomia3.jpg"
+] as const;
