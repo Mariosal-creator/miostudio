@@ -1,5 +1,5 @@
-﻿const fs = require("fs");
-const path = require("path");
+import fs from "node:fs";
+import path from "node:path";
 
 const root = process.cwd();
 const miniRoot = path.join(root, "public", "portfolio", "fotografia", "miniaturas");
@@ -10,6 +10,7 @@ const listImages = (folder) => {
   const dir = path.join(miniRoot, folder);
   const exts = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
   if (!fs.existsSync(dir)) return [];
+
   return fs
     .readdirSync(dir)
     .filter((f) => exts.has(path.extname(f).toLowerCase()))
@@ -24,14 +25,18 @@ const walkImages = (folder) => {
 
   const walk = (current, rel = []) => {
     if (!fs.existsSync(current)) return;
+
     for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
       const nextRel = [...rel, entry.name];
       const full = path.join(current, entry.name);
+
       if (entry.isDirectory()) {
         walk(full, nextRel);
         continue;
       }
+
       if (!exts.has(path.extname(entry.name).toLowerCase())) continue;
+
       results.push({
         url: `/portfolio/fotografia/miniaturas/${folder}/${encodeSegments(nextRel)}`,
         mtime: fs.statSync(full).mtimeMs,

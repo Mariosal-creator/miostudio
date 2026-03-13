@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "node scripts/generate-photo-catalog.cjs",
+    "photos:catalog": "node scripts/generate-photo-catalog.mjs",
+    "photos:refresh": "npm run photos:catalog",
+    "deploy:check": "npm run photos:catalog && npm run lint && npm run build",
+    "prebuild": "node scripts/generate-photo-catalog.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
