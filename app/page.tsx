@@ -113,7 +113,7 @@ export default function Home() {
       )}
 
       <ServicesCarousel />
-  <RecentProjectsCarousel />
+      <RecentProjectsCarousel />
       <TestimonialsSection />
       <BrandsCarousel />
       <Footer />

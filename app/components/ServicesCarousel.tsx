@@ -4,13 +4,49 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+const IMAGE_ROTATION_MS = 5 * 60 * 1000;
+
+const photographyImages = [
+  "/portfolio/fotografia/miniaturas/minevento.jpg",
+  "/portfolio/fotografia/miniaturas/miniest.jpg",
+  "/portfolio/fotografia/miniaturas/minprod.jpg",
+  "/portfolio/fotografia/miniaturas/fotografia.jpg",
+  "/portfolio/fotografia/miniaturas/fotografia5.jpg",
+  "/portfolio/fotografia/miniaturas/gastronomia/fotogastronomia1.jpg",
+];
+
+const videoImages = [
+  "/categoriaserv/videos.jpg",
+  "/categoriaserv/stream-live.jpg",
+];
+
+const advisoryImages = [
+  "/categoriaserv/stream-live.jpg",
+  "/categoriaserv/videos.jpg",
+  "/categoriaserv/fotografia.jpg",
+];
+
+const getRandomImage = (images: string[], currentImage?: string) => {
+  if (images.length === 0) {
+    return currentImage ?? "/categoriaserv/videos.jpg";
+  }
+
+  if (images.length === 1) {
+    return images[0];
+  }
+
+  const candidates = currentImage ? images.filter((image) => image !== currentImage) : images;
+  return candidates[Math.floor(Math.random() * candidates.length)] ?? images[0];
+};
+
 const services = [
   {
     id: 1,
     name: "Video",
     slug: "video",
     description: "Producción audiovisual para marcas, empresas y campañas.",
-    image: "/slides/slide1.jpg",
+    image: "/categoriaserv/videos.jpg",
+    imagePool: videoImages,
     code: "MO-101",
   },
   {
@@ -18,7 +54,8 @@ const services = [
     name: "Fotografía",
     slug: "fotografia",
     description: "Dirección visual y sesiones profesionales con estilo editorial.",
-    image: "/portfolio/fotografia/miniaturas/paisajista/Nissan-114.jpg",
+    image: "/portfolio/fotografia/miniaturas/minevento.jpg",
+    imagePool: photographyImages,
     code: "MO-204",
   },
   {
@@ -26,7 +63,8 @@ const services = [
     name: "Asesoría y Capacitaciones",
     slug: "asesoria-capacitaciones",
     description: "Acompañamiento estratégico y formación práctica para equipos.",
-    image: "/slides/slide2.jpg",
+    image: "/categoriaserv/stream-live.jpg",
+    imagePool: advisoryImages,
     code: "MO-315",
   },
 ];
@@ -35,6 +73,9 @@ export default function ServicesCarousel() {
   const router = useRouter();
   const [activeServiceId, setActiveServiceId] = useState(1);
   const [showBackCards, setShowBackCards] = useState(false);
+  const [serviceImages, setServiceImages] = useState<Record<number, string>>(() =>
+    Object.fromEntries(services.map((service) => [service.id, service.image]))
+  );
   const lastSwitchRef = useRef(0);
 
   useEffect(() => {
@@ -43,6 +84,26 @@ export default function ServicesCarousel() {
     }, 650);
 
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const rotateImages = () => {
+      setServiceImages((currentImages) =>
+        Object.fromEntries(
+          services.map((service) => [
+            service.id,
+            getRandomImage(service.imagePool, currentImages[service.id]),
+          ])
+        )
+      );
+    };
+
+    rotateImages();
+    const intervalId = window.setInterval(rotateImages, IMAGE_ROTATION_MS);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
   }, []);
 
   const getPosition = (serviceId: number) => {
@@ -170,11 +231,16 @@ export default function ServicesCarousel() {
             >
               <div className="absolute inset-0 overflow-hidden">
                 <img
-                  src={service.image}
+                  src={serviceImages[service.id] ?? service.image ?? "/categoriaserv/videos.jpg"}
                   alt={service.name}
+                  loading="eager"
+                  decoding="async"
+                  onError={(event) => {
+                    event.currentTarget.src = service.image ?? "/categoriaserv/videos.jpg";
+                  }}
                   className={`h-full w-full object-cover transition-transform duration-500 ${isCenter ? "group-hover:scale-[1.03]" : ""}`}
                 />
-                <div className={`absolute inset-0 ${isCenter ? "bg-gradient-to-t from-black/75 via-black/25 to-transparent" : "bg-black/35"}`} />
+                <div className={`absolute inset-0 ${isCenter ? "bg-gradient-to-t from-black/60 via-black/10 to-transparent" : "bg-black/20"}`} />
               </div>
 
               <div className="relative z-10 flex h-full flex-col justify-between p-3 sm:p-4 lg:p-5">
