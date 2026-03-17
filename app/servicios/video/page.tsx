@@ -34,7 +34,7 @@ export default function VideoPage() {
                 href={subcategoria.href}
                 className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:border-[#f20c0c]/60 hover:bg-white/10"
               >
-                <div className="relative aspect-[16/10] w-full">
+                <div className={`relative ${subcategoria.cardAspectRatio || 'aspect-[16/10]'} w-full`}>
                   <Image
                     src={subcategoria.image}
                     alt={`Miniatura de ${subcategoria.title}`}
@@ -57,12 +57,6 @@ export default function VideoPage() {
         </section>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link
-            href="/portfolio/videos"
-            className="inline-flex rounded-full bg-gradient-to-r from-[#f20c0c] to-black px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
-          >
-            Ver portafolio
-          </Link>
           <Link
             href="/servicios"
             className="inline-flex rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-[#f20c0c]/60"

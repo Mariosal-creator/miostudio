@@ -81,15 +81,11 @@ const brand = {
 const accreditations: Accreditation[] = [
   {
     label: "RUC Activo",
-    pdfPath: "/documentos/FORMULARIO RUC01A.pdf",
+    pdfPath: "/documentos/RUC.pdf",
   },
   {
     label: "Certificado de Obligaciones Tributarias al dia",
-    pdfPath: "/documentos/CERTIFICADO OBLIGACIONES TRIBUTARIAS.pdf",
-  },
-  {
-    label: "Certificado Patronal IESS vigente",
-    pdfPath: "/documentos/CERTIFICADO PATRONAL IESS.pdf",
+    pdfPath: "/documentos/CERTIFICADO.pdf",
   },
   {
     label: "Equipamiento profesional: camara 4K, dron, audio pro, suite de edicion",
@@ -232,24 +228,28 @@ const team = [
     role: "Productor y Director de Proyecto",
     experience: "Experiencia en estrategia, logistica y direccion de proyectos audiovisuales",
     image: "/equipo/Rogers.jpg",
+    pdfPath: "/documentos/equipos.pdf",
   },
   {
     name: "Mario Salazar",
     role: "Jefe de Audio y Sonido",
     experience: "Experiencia en captura, mezcla y diseno sonoro para producciones audiovisuales",
     image: "/equipo/mario-salazar.jpg",
+    pdfPath: "/documentos/Mario%20Salazar-CV.pdf",
   },
   {
     name: "Obed Briceno",
     role: "Jefe de Fotografia",
     experience: "Experiencia en direccion visual, iluminacion y lenguaje cinematografico",
     image: "/equipo/obed-briseno.jpg",
+    pdfPath: "/documentos/equipos.pdf",
   },
   {
     name: "Ismael Pierre",
     role: "Jefe de Video",
     experience: "Experiencia en realizacion, cobertura en territorio y flujo de produccion",
     image: "/equipo/ismael-pierre.jpg",
+    pdfPath: "/documentos/equipos.pdf",
   },
 ];
 
@@ -257,10 +257,12 @@ export default function DocumentalPage() {
   const [activeProjectId, setActiveProjectId] = useState<number | null>(null);
   const [activePdf, setActivePdf] = useState<Accreditation | null>(null);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
+  const [activeTeamCue, setActiveTeamCue] = useState<string | null>(null);
   const [canHoverPreview, setCanHoverPreview] = useState(false);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const photoItemRefs = useRef<Array<HTMLElement | null>>([]);
+  const teamCueTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -297,6 +299,23 @@ export default function DocumentalPage() {
       left: direction === "left" ? -amount : amount,
       behavior: "smooth",
     });
+  };
+
+  const openTeamPdf = (name: string, pdfPath?: string) => {
+    if (!pdfPath) {
+      return;
+    }
+
+    setActiveTeamCue(name);
+
+    if (teamCueTimeoutRef.current) {
+      clearTimeout(teamCueTimeoutRef.current);
+    }
+
+    teamCueTimeoutRef.current = setTimeout(() => {
+      setActivePdf({ label: `Equipo profesional: ${name}`, pdfPath });
+      setActiveTeamCue(null);
+    }, 170);
   };
 
   const scrollToPhoto = (index: number) => {
@@ -341,6 +360,14 @@ export default function DocumentalPage() {
     return () => {
       container.removeEventListener("scroll", updateActivePhoto);
       window.removeEventListener("resize", updateActivePhoto);
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (teamCueTimeoutRef.current) {
+        clearTimeout(teamCueTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -676,16 +703,52 @@ export default function DocumentalPage() {
           <div className="mx-auto max-w-6xl">
             <h2 className="text-2xl font-bold sm:text-3xl">Equipo profesional</h2>
             <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-              {team.map((person) => (
-                <article key={person.name} className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
-                  <img src={person.image} alt={person.name} className="h-72 w-full object-cover" />
-                  <div className="p-5">
-                    <h3 className="text-xl font-bold">{person.name}</h3>
-                    <p className="mt-1 text-sm font-semibold" style={{ color: brand.accent }}>{person.role}</p>
-                    <p className="mt-2 text-sm text-black/75">{person.experience}</p>
-                  </div>
-                </article>
-              ))}
+              {team.map((person) => {
+                const hasPdf = Boolean(person.pdfPath);
+
+                return (
+                  <article key={person.name} className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
+                    {hasPdf ? (
+                      <button
+                        type="button"
+                        onTouchStart={() => setActiveTeamCue(person.name)}
+                        onMouseDown={() => setActiveTeamCue(person.name)}
+                        onMouseLeave={() => setActiveTeamCue((current) => (current === person.name ? null : current))}
+                        onBlur={() => setActiveTeamCue((current) => (current === person.name ? null : current))}
+                        onClick={() => openTeamPdf(person.name, person.pdfPath)}
+                        className="group relative block w-full cursor-pointer overflow-hidden"
+                        aria-label={`Abrir PDF de ${person.name}`}
+                      >
+                        <img src={person.image} alt={person.name} className="h-72 w-full object-cover" />
+                        <span
+                          className={`pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20 transition-all duration-300 ${
+                            activeTeamCue === person.name
+                              ? "opacity-100"
+                              : "opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100"
+                          }`}
+                        >
+                          <span
+                            className={`rounded-full border border-white/70 bg-black/65 px-5 py-2 text-xs font-bold uppercase tracking-[0.22em] text-white shadow-lg transition-all duration-300 ${
+                              activeTeamCue === person.name
+                                ? "scale-100 translate-y-0"
+                                : "translate-y-3 scale-90 group-hover:translate-y-0 group-hover:scale-100 group-focus-visible:translate-y-0 group-focus-visible:scale-100 group-active:translate-y-0 group-active:scale-100"
+                            }`}
+                          >
+                            Ver CV
+                          </span>
+                        </span>
+                      </button>
+                    ) : (
+                      <img src={person.image} alt={person.name} className="h-72 w-full object-cover" />
+                    )}
+                    <div className="p-5">
+                      <h3 className="text-xl font-bold">{person.name}</h3>
+                      <p className="mt-1 text-sm font-semibold" style={{ color: brand.accent }}>{person.role}</p>
+                      <p className="mt-2 text-sm text-black/75">{person.experience}</p>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>

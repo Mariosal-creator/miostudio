@@ -16,18 +16,20 @@ export default function VideoSubcategoryPage({ subcategory }: Props) {
         </h1>
         <p className="mt-4 max-w-3xl text-sm text-gray-300 sm:text-base lg:text-lg">{subcategory.intro}</p>
 
-        <div className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-xl">
-          <div className="relative aspect-[16/9] w-full">
-            <Image
-              src={subcategory.image}
-              alt={`Miniatura de ${subcategory.title}`}
-              fill
-              sizes="(max-width: 1024px) 100vw, 896px"
-              className="object-cover"
-            />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
+        {subcategory.showHeroImage !== false ? (
+          <div className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-xl">
+            <div className="relative aspect-[16/9] w-full">
+              <Image
+                src={subcategory.image}
+                alt={`Miniatura de ${subcategory.title}`}
+                fill
+                sizes="(max-width: 1024px) 100vw, 896px"
+                className="object-cover"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
+            </div>
           </div>
-        </div>
+        ) : null}
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2">
           {subcategory.highlights.map((item) => (
@@ -43,6 +45,28 @@ export default function VideoSubcategoryPage({ subcategory }: Props) {
             Cada proyecto se adapta al tono de marca, al canal de distribucion y al objetivo comercial para lograr una pieza consistente desde la preproduccion hasta la entrega final.
           </p>
         </section>
+
+        {subcategory.videos?.length ? (
+          <section className="mt-10">
+            <h2 className="text-xl font-bold text-white sm:text-2xl">Videos destacados</h2>
+            <div className={`mt-6 grid gap-6 ${subcategory.videosAspectRatio === 'aspect-[9/16]' ? 'sm:grid-cols-2 lg:grid-cols-3' : ''}`}>
+              {subcategory.videos.map((video) => (
+                <article key={video.embedUrl} className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-xl">
+                  <div className={`${subcategory.videosAspectRatio || 'aspect-video'} w-full`}>
+                    <iframe
+                      className="h-full w-full"
+                      src={video.embedUrl}
+                      title={video.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
