@@ -112,6 +112,12 @@ export const videoSubcategories: VideoSubcategory[] = [
       "Edicion resumen, highlights y piezas cortas para difusion inmediata",
       "Entrega en formatos listos para redes, prensa y uso institucional",
     ],
+    videos: [
+      {
+        title: "Video de evento destacado",
+        embedUrl: "https://www.youtube.com/embed/baFwWVLHpXM?rel=0",
+      },
+    ],
   },
   {
     slug: "transmisiones-en-vivo",

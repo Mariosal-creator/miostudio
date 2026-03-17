@@ -85,7 +85,7 @@ export default function ContactoPage() {
               Conecta con <span className="text-[#f20c0c]">Moi Studio</span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto">
-              Estamos listos para colaborar. Cuéntanos tu proyecto y llevaremos tu visión a la pantalla
+              Estamos listos para colaborar. Cuéntanos tu proyecto y llevaremos tu visión a la pantalla.
             </p>
           </div>
         </div>
@@ -100,37 +100,14 @@ export default function ContactoPage() {
               href={red.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${red.color} ${red.hoverColor} p-8 sm:p-10 lg:p-12 transition-all duration-500 hover:scale-105 hover:shadow-2xl transform`}
+              className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${red.color} ${red.hoverColor} p-6 sm:p-7 lg:p-8 transition-all duration-500 hover:scale-105 hover:shadow-2xl transform`}
             >
-              {/* Efecto de brillo */}
               <div className="pointer-events-none absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all duration-500" />
-              
-              {/* Contenido */}
-              <div className="relative z-10">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="text-white transform group-hover:scale-110 transition-transform duration-500">
-                    {red.icon}
-                  </div>
-                  <svg 
-                    className="w-8 h-8 text-white/80 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </div>
-                
-                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-                  {red.nombre}
-                </h3>
-                <p className="text-base sm:text-lg text-white/90">
-                  {red.descripcion}
-                </p>
+              <div className="relative z-10 flex flex-col items-center justify-center py-4">
+                <span className="block w-12 h-12 sm:w-14 sm:h-14 text-white mb-6 mx-auto">{red.icon}</span>
+                {/* Solo el icono, sin texto ni nombre */}
               </div>
-
-              {/* Decoración de fondo */}
-              <div className="pointer-events-none absolute -bottom-8 -right-8 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
+              <div className="pointer-events-none absolute -bottom-8 -right-8 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
             </a>
           ))}
         </div>
@@ -144,7 +121,6 @@ export default function ContactoPage() {
               moistudioec@gmail.com
             </a>
           </div>
-
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[#f20c0c] transition-colors duration-300">
             <div className="text-4xl mb-4">📞</div>
             <h3 className="text-xl font-semibold text-white mb-2">Teléfono</h3>
@@ -152,7 +128,6 @@ export default function ContactoPage() {
               +593 98 204 8240
             </a>
           </div>
-
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[#f20c0c] transition-colors duration-300">
             <div className="text-4xl mb-4">🕐</div>
             <h3 className="text-xl font-semibold text-white mb-2">Horarios</h3>
@@ -160,6 +135,80 @@ export default function ContactoPage() {
               Lun - Vie: 9:00 AM - 8:00 PM
             </p>
           </div>
+        </div>
+
+        {/* Beneficios de contactarse */}
+        <div className="mt-16 max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">¿Por qué contactarnos?</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+              <h3 className="text-xl font-semibold text-[#f20c0c] mb-2">Asesoría personalizada</h3>
+              <p className="text-gray-300">Te guiamos en cada etapa de tu proyecto audiovisual, desde la idea hasta la entrega final.</p>
+            </div>
+            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+              <h3 className="text-xl font-semibold text-[#f20c0c] mb-2">Respuesta rápida</h3>
+              <p className="text-gray-300">Nos comprometemos a responderte en menos de 24 horas hábiles.</p>
+            </div>
+            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+              <h3 className="text-xl font-semibold text-[#f20c0c] mb-2">Soluciones creativas</h3>
+              <p className="text-gray-300">Propuestas innovadoras y adaptadas a tus necesidades y presupuesto.</p>
+            </div>
+            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+              <h3 className="text-xl font-semibold text-[#f20c0c] mb-2">Atención integral</h3>
+              <p className="text-gray-300">Acompañamiento antes, durante y después de tu proyecto.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Formulario de contacto y mapa */}
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+          {/* Formulario con Formspree */}
+          <form 
+            className="bg-white/5 rounded-2xl p-8 border border-white/10 shadow-lg flex flex-col gap-6"
+            action="https://formspree.io/f/mlgpovzp"
+            method="POST"
+          >
+            <h2 className="text-2xl font-bold text-white mb-2">Envíanos un mensaje</h2>
+            <div>
+              <label className="block text-gray-300 mb-1" htmlFor="nombre">Nombre</label>
+              <input required type="text" id="nombre" name="nombre" className="w-full rounded-lg px-4 py-2 bg-gray-900/80 text-white border border-white/10 focus:border-[#f20c0c] outline-none" />
+            </div>
+            <div>
+              <label className="block text-gray-300 mb-1" htmlFor="email">Email</label>
+              <input required type="email" id="email" name="email" className="w-full rounded-lg px-4 py-2 bg-gray-900/80 text-white border border-white/10 focus:border-[#f20c0c] outline-none" />
+            </div>
+            <div>
+              <label className="block text-gray-300 mb-1" htmlFor="telefono">Teléfono (opcional)</label>
+              <input type="tel" id="telefono" name="telefono" className="w-full rounded-lg px-4 py-2 bg-gray-900/80 text-white border border-white/10 focus:border-[#f20c0c] outline-none" />
+            </div>
+            <div>
+              <label className="block text-gray-300 mb-1" htmlFor="mensaje">Mensaje</label>
+              <textarea required id="mensaje" name="mensaje" rows={4} className="w-full rounded-lg px-4 py-2 bg-gray-900/80 text-white border border-white/10 focus:border-[#f20c0c] outline-none" />
+            </div>
+            {/* Campo oculto para redirigir a una página de gracias (opcional) */}
+            {/* <input type="hidden" name="_next" value="https://tusitio.com/gracias" /> */}
+            <button type="submit" className="mt-2 bg-[#f20c0c] hover:bg-[#c90a0a] text-white font-bold py-3 rounded-lg transition-colors">Enviar mensaje</button>
+          </form>
+          {/* Mapa */}
+          <div className="rounded-2xl overflow-hidden border border-white/10 shadow-lg min-h-[350px]">
+            <iframe
+              title="Ubicación Moi Studio"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d997.123456789!2d-79.204824!3d-2.204824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902d6d1b1234567%3A0x123456789abcdef!2sMoi%20Studio!5e0!3m2!1ses-419!2sec!4v1700000000000!5m2!1ses-419!2sec"
+              width="100%"
+              height="350"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+
+        {/* CTA final */}
+        <div className="mt-24 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">¿Listo para comenzar tu proyecto?</h2>
+          <p className="text-lg text-gray-300 mb-6">¡Contáctanos hoy y da el primer paso para llevar tu idea a la realidad!</p>
+          <a href="https://wa.me/+593983231437?text=Hola%20Moi%20Studio%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener noreferrer" className="inline-block bg-[#f20c0c] hover:bg-[#c90a0a] text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors shadow-lg">Escríbenos por WhatsApp</a>
         </div>
       </div>
     </div>

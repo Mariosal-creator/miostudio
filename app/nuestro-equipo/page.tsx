@@ -56,7 +56,6 @@ export default function NuestroEquipoPage() {
 
   useEffect(() => {
     document.body.style.overflow = modalImagen ? "hidden" : "auto";
-
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -69,37 +68,93 @@ export default function NuestroEquipoPage() {
         setModalNombre("");
       }
     };
-
     window.addEventListener("keydown", manejarEscape);
     return () => window.removeEventListener("keydown", manejarEscape);
   }, []);
 
   const abrirModal = (src: string, nombre: string) => {
-    if (!src) {
-      return;
-    }
+    if (!src) return;
     setModalImagen(src);
     setModalNombre(nombre);
   };
-
   const cerrarModal = () => {
     setModalImagen(null);
     setModalNombre("");
   };
 
+  // Secciones adicionales
+  const especialidades = [
+    "Producción audiovisual integral",
+    "Dirección de fotografía y video",
+    "Diseño sonoro y mezcla profesional",
+    "Iluminación avanzada y manejo de color",
+    "Streaming y transmisión en vivo",
+    "Narrativa visual y storytelling",
+    "Capacitación y formación de equipos",
+  ];
+
+  const valores = [
+    "Creatividad",
+    "Compromiso",
+    "Calidad",
+    "Innovación",
+    "Trabajo en equipo",
+    "Ética profesional",
+  ];
+
+  const beneficios = [
+    "Atención personalizada en cada proyecto",
+    "Soluciones creativas y técnicas de alto nivel",
+    "Acompañamiento de principio a fin",
+    "Actualización constante en tendencias y tecnología",
+    "Resultados medibles y satisfacción garantizada",
+  ];
+
+  const filosofia = [
+    {
+      frase: "Creemos que cada proyecto es una oportunidad para contar una historia única y memorable.",
+      autor: "Equipo Moi Studio",
+    },
+    {
+      frase: "La colaboración y la pasión por el detalle nos distinguen en cada entrega.",
+      autor: "Obed Briceño",
+    },
+    {
+      frase: "Nuestro compromiso es superar expectativas y construir relaciones de confianza a largo plazo.",
+      autor: "Rogers Laverde",
+    },
+  ];
+
   return (
-    <section className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
-      <div className="mx-auto max-w-6xl">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-white sm:text-4xl md:text-5xl lg:text-6xl">
+    <section className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 px-0 py-0">
+      {/* HERO */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-black via-[#181818] to-[#232323] px-4 py-16 sm:px-6 lg:px-8 lg:py-24 border-b border-white/10">
+        <div className="pointer-events-none absolute inset-0 opacity-30">
+          <div className="absolute -top-28 left-1/3 h-80 w-80 rounded-full bg-[#f20c0c]/30 blur-3xl" />
+          <div className="absolute -bottom-20 right-0 h-72 w-72 rounded-full bg-white/20 blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-4xl text-center">
+          <span className="inline-flex rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/90">
+            Talento, experiencia y pasión audiovisual
+          </span>
+          <h1 className="mt-5 text-3xl font-black leading-tight text-white sm:text-5xl lg:text-6xl">
             Nuestro <span className="text-[#f20c0c]">Equipo</span>
           </h1>
-          <p className="mx-auto mt-4 max-w-3xl text-base text-gray-300 sm:mt-6 sm:text-lg md:text-xl">
-            Conoce a nuestros integrantes y haz clic en cada fotografía para verla en una ventana modal.
+          <p className="mt-5 max-w-2xl mx-auto text-base text-white/85 sm:text-lg">
+            Somos un grupo multidisciplinario que combina creatividad, técnica y compromiso para lograr resultados extraordinarios en cada proyecto audiovisual.
           </p>
         </div>
+      </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-5 sm:mt-10 sm:gap-6 lg:mt-12">
+      {/* CARDS DE MIEMBROS */}
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-white sm:text-3xl">Conoce a nuestro equipo</h2>
+          <p className="mx-auto mt-4 max-w-3xl text-base text-gray-300 sm:mt-6 sm:text-lg md:text-xl">
+            Haz clic en cada fotografía para ampliar y ver detalles de contacto.
+          </p>
+        </div>
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {integrantes.map((integrante) => (
             <article
               key={integrante.id}
@@ -119,13 +174,11 @@ export default function NuestroEquipoPage() {
                   Clic para ampliar
                 </span>
               </button>
-
               <div className="mt-4 flex-1">
                 <h2 className="text-lg font-semibold text-white sm:text-xl">{integrante.nombre}</h2>
                 <p className="mt-1 text-sm font-medium text-[#f20c0c]">{integrante.cargo}</p>
                 <p className="mt-2 text-sm text-gray-300">{integrante.descripcion}</p>
               </div>
-
               <a
                 href={integrante.whatsapp}
                 target="_blank"
@@ -139,6 +192,81 @@ export default function NuestroEquipoPage() {
         </div>
       </div>
 
+      {/* ESPECIALIDADES */}
+      <section className="bg-[#181818] border-b border-white/10 px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-2xl font-bold text-white sm:text-3xl">Especialidades del equipo</h2>
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {especialidades.map((esp) => (
+              <li key={esp} className="rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-white/90 text-sm flex items-center gap-3">
+                <span className="inline-block h-3 w-3 rounded-full bg-[#f20c0c] mr-2" />
+                {esp}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* VALORES */}
+      <section className="bg-[#151515] border-b border-white/10 px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-2xl font-bold text-white sm:text-3xl">Nuestros valores</h2>
+          <ul className="mt-8 flex flex-wrap justify-center gap-4">
+            {valores.map((valor) => (
+              <li key={valor} className="rounded-full border border-white/10 bg-white/5 px-6 py-2 text-white/90 text-sm font-semibold">
+                {valor}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* BENEFICIOS */}
+      <section className="bg-[#181818] border-b border-white/10 px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-2xl font-bold text-white sm:text-3xl">¿Por qué trabajar con nosotros?</h2>
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+            {beneficios.map((b) => (
+              <li key={b} className="rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-white/90 text-sm flex items-center gap-3">
+                <span className="inline-block h-3 w-3 rounded-full bg-[#f20c0c] mr-2" />
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* FILOSOFÍA DE TRABAJO */}
+      <section className="bg-[#151515] border-b border-white/10 px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-2xl font-bold text-white sm:text-3xl">Nuestra filosofía</h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filosofia.map((f) => (
+              <blockquote key={f.frase} className="rounded-xl border border-white/10 bg-white/5 px-6 py-5 text-white/90 text-sm shadow-sm">
+                <p className="mb-3">“{f.frase}”</p>
+                <footer className="text-xs text-[#f20c0c] font-bold">{f.autor}</footer>
+              </blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA FINAL */}
+      <section className="px-4 py-16 sm:px-6 lg:px-8 bg-gradient-to-r from-[#f20c0c] to-black">
+        <div className="mx-auto max-w-4xl text-center text-white">
+          <h2 className="text-3xl font-black sm:text-4xl">¿Quieres trabajar con nosotros?</h2>
+          <p className="mt-3 max-w-2xl mx-auto text-white/90">
+            Contáctanos para sumar tu talento o para que nuestro equipo lleve tu proyecto al siguiente nivel.
+          </p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <a href="/contacto" className="inline-flex rounded-full bg-white px-6 py-3 text-sm font-bold uppercase tracking-wide text-black transition hover:bg-black hover:text-white">
+              Contactar equipo
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* MODAL IMAGEN */}
       {modalImagen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-2 sm:p-4"
