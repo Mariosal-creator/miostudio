@@ -202,11 +202,11 @@ const projects: Project[] = [
   },
   {
     id: 6,
-    title: "Voces para la Proteccion",
-    client: "Programa de Cooperacion",
+    title: "EL MIGRANTE",
+    client: "IAVQ",
     tags: ["Proteccion", "Derechos", "Incidencia"],
-    image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=1400&q=80",
-    videoUrl: "https://www.youtube.com/embed/L1gUbHzWxG8",
+    image: "https://i.ytimg.com/vi/i0MZLIB27cQ/hqdefault.jpg",
+    videoUrl: "https://www.youtube.com/embed/i0MZLIB27cQ",
     objective:
       "Visibilizar testimonios y acciones de proteccion para poblacion en situacion de riesgo, destacando rutas de atencion y apoyo.",
     methodology: [
@@ -228,7 +228,7 @@ const team = [
     role: "Productor y Director de Proyecto",
     experience: "Experiencia en estrategia, logistica y direccion de proyectos audiovisuales",
     image: "/equipo/Rogers.jpg",
-    pdfPath: "/documentos/equipos.pdf",
+    pdfPath: "/documentos/CV%20Rogers%20Laverde%202026.pdf",
   },
   {
     name: "Mario Salazar",
@@ -242,7 +242,7 @@ const team = [
     role: "Jefe de Fotografia",
     experience: "Experiencia en direccion visual, iluminacion y lenguaje cinematografico",
     image: "/equipo/obed-briseno.jpg",
-    pdfPath: "/documentos/equipos.pdf",
+    pdfPath: "/documentos/CV%20Obed%20Brice%C3%B1o%20-%20MOI%20Studio.pdf",
   },
   {
     name: "Ismael Pierre",
@@ -257,6 +257,7 @@ export default function DocumentalPage() {
   const [activeProjectId, setActiveProjectId] = useState<number | null>(null);
   const [activePdf, setActivePdf] = useState<Accreditation | null>(null);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
+  const [selectedTag, setSelectedTag] = useState("Todos");
   const [activeTeamCue, setActiveTeamCue] = useState<string | null>(null);
   const [canHoverPreview, setCanHoverPreview] = useState(false);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
@@ -286,6 +287,22 @@ export default function DocumentalPage() {
     () => projects.find((item) => item.id === activeProjectId) ?? null,
     [activeProjectId]
   );
+
+  const projectTags = useMemo(
+    () => [
+      "Todos",
+      ...Array.from(new Set(projects.flatMap((project) => project.tags))).sort((a, b) => a.localeCompare(b)),
+    ],
+    []
+  );
+
+  const visibleProjects = useMemo(() => {
+    if (selectedTag === "Todos") {
+      return projects;
+    }
+
+    return projects.filter((project) => project.tags.includes(selectedTag));
+  }, [selectedTag]);
 
   const scrollCarousel = (direction: "left" | "right") => {
     const container = carouselRef.current;
@@ -371,6 +388,41 @@ export default function DocumentalPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!activeProject && !activePdf) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveProjectId(null);
+        setActivePdf(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activePdf, activeProject]);
+
+  useEffect(() => {
+    const bodyStyle = document.body.style;
+    const shouldLockScroll = Boolean(activeProject || activePdf);
+
+    if (shouldLockScroll) {
+      const previousOverflow = bodyStyle.overflow;
+      bodyStyle.overflow = "hidden";
+
+      return () => {
+        bodyStyle.overflow = previousOverflow;
+      };
+    }
+
+    return;
+  }, [activePdf, activeProject]);
+
   return (
     <>
       <Header />
@@ -442,9 +494,35 @@ export default function DocumentalPage() {
 
         <section id="proyectos" className="bg-[#f6f6f6] px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl">
-            <h2 className="text-2xl font-bold sm:text-3xl">Proyectos destacados</h2>
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <h2 className="text-2xl font-bold sm:text-3xl">Proyectos destacados</h2>
+              <p className="text-sm text-black/65">{visibleProjects.length} proyecto(s) visibles</p>
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-2">
+              {projectTags.map((tag) => {
+                const isActive = selectedTag === tag;
+
+                return (
+                  <button
+                    key={tag}
+                    type="button"
+                    onClick={() => setSelectedTag(tag)}
+                    className={`rounded-full border px-4 py-2 text-xs font-bold uppercase tracking-wide transition sm:text-sm ${
+                      isActive
+                        ? "border-[#f20c0c] bg-[#f20c0c] text-white"
+                        : "border-black/15 bg-white text-black/75 hover:border-[#f20c0c] hover:text-[#f20c0c]"
+                    }`}
+                    aria-pressed={isActive}
+                  >
+                    {tag}
+                  </button>
+                );
+              })}
+            </div>
+
             <div className="mt-8 grid gap-6 md:grid-cols-2">
-              {projects.map((project) => {
+              {visibleProjects.map((project) => {
                 const videoId = getYouTubeVideoId(project.videoUrl);
                 const isYouTubeProject = project.videoUrl.includes("youtube.com/embed");
                 const isHovered = hoveredProjectId === project.id;
@@ -465,7 +543,12 @@ export default function DocumentalPage() {
                       }
                     }}
                   >
-                    <div className="relative h-52 w-full overflow-hidden bg-black">
+                    <button
+                      type="button"
+                      onClick={() => setActiveProjectId(project.id)}
+                      className="group relative block h-52 w-full overflow-hidden bg-black text-left"
+                      aria-label={`Ver proyecto ${project.title}`}
+                    >
                       <img
                         src={project.image}
                         alt={project.title}
@@ -492,6 +575,8 @@ export default function DocumentalPage() {
                           title={`Preview ${project.title}`}
                           className={`pointer-events-none absolute inset-0 h-full w-full transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}
                           allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                          loading="lazy"
+                          referrerPolicy="strict-origin-when-cross-origin"
                           tabIndex={-1}
                         />
                       )}
@@ -501,7 +586,13 @@ export default function DocumentalPage() {
                           Toca Ver detalles
                         </span>
                       )}
-                    </div>
+
+                      <span className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100">
+                        <span className="rounded-full border border-white/60 bg-black/70 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.2em] text-white">
+                          Ver video
+                        </span>
+                      </span>
+                    </button>
                     <div className="p-5">
                       <h3 className="text-xl font-bold">{project.title}</h3>
                       <p className="mt-1 text-sm text-black/70">Cliente: {project.client}</p>
@@ -523,6 +614,13 @@ export default function DocumentalPage() {
                   </article>
                 );
               })}
+
+              {!visibleProjects.length && (
+                <article className="rounded-2xl border border-dashed border-black/20 bg-white p-8 text-center md:col-span-2">
+                  <h3 className="text-lg font-bold">No hay resultados para este filtro</h3>
+                  <p className="mt-2 text-sm text-black/70">Selecciona otra categoria para ver mas proyectos destacados.</p>
+                </article>
+              )}
             </div>
           </div>
         </section>
@@ -829,6 +927,8 @@ export default function DocumentalPage() {
                   title={activeProject.title}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
                 />
               </div>
