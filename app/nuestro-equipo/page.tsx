@@ -72,8 +72,14 @@ export default function NuestroEquipoPage() {
     return () => window.removeEventListener("keydown", manejarEscape);
   }, []);
 
-  const abrirModal = (src: string, nombre: string) => {
+  const abrirModal = (src: string, nombre: string, id?: string) => {
     if (!src) return;
+    // Si es Ismael, mostrar el PDF en vez de la imagen
+    if (id === "ismael") {
+      setModalImagen("/documentos/cvismaelpierre.pdf");
+      setModalNombre(nombre);
+      return;
+    }
     setModalImagen(src);
     setModalNombre(nombre);
   };
@@ -162,7 +168,7 @@ export default function NuestroEquipoPage() {
             >
               <button
                 type="button"
-                onClick={() => abrirModal(integrante.foto, integrante.nombre)}
+                onClick={() => abrirModal(integrante.foto, integrante.nombre, integrante.id)}
                 className="group relative block aspect-square w-full overflow-hidden rounded-xl border border-white/10 bg-black"
               >
                 <img
@@ -178,6 +184,15 @@ export default function NuestroEquipoPage() {
                 <h2 className="text-lg font-semibold text-white sm:text-xl">{integrante.nombre}</h2>
                 <p className="mt-1 text-sm font-medium text-[#f20c0c]">{integrante.cargo}</p>
                 <p className="mt-2 text-sm text-gray-300">{integrante.descripcion}</p>
+                {integrante.id === "ismael" && (
+                  <button
+                    type="button"
+                    onClick={() => abrirModal("/documentos/cvismaelpierre.pdf", integrante.nombre, integrante.id)}
+                    className="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-full border border-[#f20c0c] bg-transparent px-4 py-2.5 text-sm font-semibold text-[#f20c0c] hover:bg-[#f20c0c] hover:text-white transition"
+                  >
+                    Ver CV
+                  </button>
+                )}
               </div>
               <a
                 href={integrante.whatsapp}
@@ -284,7 +299,17 @@ export default function NuestroEquipoPage() {
             >
               Cerrar
             </button>
-            <img src={modalImagen} alt={modalNombre} className="max-h-[75vh] w-full object-contain sm:max-h-[82vh]" />
+            {modalImagen.endsWith(".pdf") ? (
+              <iframe
+                src={modalImagen}
+                title={modalNombre}
+                className="w-full min-h-[70vh] sm:min-h-[82vh] bg-white"
+                style={{ border: 0 }}
+                allow="autoplay; encrypted-media"
+              />
+            ) : (
+              <img src={modalImagen} alt={modalNombre} className="max-h-[75vh] w-full object-contain sm:max-h-[82vh]" />
+            )}
           </div>
         </div>
       )}

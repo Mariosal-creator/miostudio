@@ -1,3 +1,18 @@
+// Fotos nuevas de la carpeta fotosavsi
+export const fotosAvsi = [
+  "/fotosavsi/Ismael con camara viaje.jpg",
+  "/fotosavsi/Ismael con camara viajes-6.jpg",
+  "/fotosavsi/Ismael con camara viajes.jpg",
+  "/fotosavsi/WhatsApp Image 2026-03-17 at 9.28.55 PM (1).jpeg",
+  "/fotosavsi/WhatsApp Image 2026-03-17 at 9.28.55 PM (2).jpeg",
+  "/fotosavsi/WhatsApp Image 2026-03-17 at 9.28.55 PM (3).jpeg",
+  "/fotosavsi/WhatsApp Image 2026-03-17 at 9.28.55 PM.jpeg",
+  "/fotosavsi/WhatsApp Image 2026-03-17 at 9.31.50 PM.jpeg",
+  "/fotosavsi/WhatsApp Image 2026-03-17 at 9.36.10 PM (1).jpeg",
+  "/fotosavsi/WhatsApp Image 2026-03-17 at 9.36.10 PM.jpeg",
+  "/fotosavsi/WhatsApp Image 2026-03-17 at 9.36.11 PM.jpeg",
+] as const;
+
 export const bodaPhotos = [
   "/portfolio/fotografia/miniaturas/boda/1ro%20Boda%20Katty%20Y%20Micky-46.jpg",
   "/portfolio/fotografia/miniaturas/boda/2do%20Boda%20Katty%20y%20Micky_-105.jpg",
@@ -27,7 +42,21 @@ export const bodaPhotos = [
   "/portfolio/fotografia/miniaturas/boda/Jazz%20%26%20Sebas%20Propuesta-35.jpg",
   "/portfolio/fotografia/miniaturas/boda/Jazz%20%26%20Sebas%20Propuesta-36.jpg",
   "/portfolio/fotografia/miniaturas/boda/Jazz%20%26%20Sebas%20Propuesta-43.jpg"
+
 ] as const;
+
+// Función para mezclar aleatoriamente dos arrays
+function mezclarAleatorio<T>(arr1: readonly T[], arr2: readonly T[]): T[] {
+  const combinado = [...arr1, ...arr2];
+  for (let i = combinado.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [combinado[i], combinado[j]] = [combinado[j], combinado[i]];
+  }
+  return combinado;
+}
+
+// Ejemplo: exportar un array mezclado para el carrusel principal
+export const carruselFotos = mezclarAleatorio(bodaPhotos, fotosAvsi);
 
 export const convencionPhotos = [
   "/portfolio/fotografia/miniaturas/convencion/54122352262_4fc0960b8d_o.jpg",

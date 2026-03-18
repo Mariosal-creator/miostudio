@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -39,7 +40,6 @@ const appendVideoParams = (url: string, params: Record<string, string>) => {
     return url;
   }
 };
-
 const buildHoverPreviewSrc = (videoUrl: string, youtubeVideoId: string) => {
   if (videoUrl.includes("youtube.com/embed") && youtubeVideoId) {
     return `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${youtubeVideoId}&modestbranding=1&rel=0&playsinline=1`;
@@ -84,20 +84,23 @@ const accreditations: Accreditation[] = [
     pdfPath: "/documentos/RUC.pdf",
   },
   {
-    label: "Certificado de Obligaciones Tributarias al dia",
+    label: "Certificado de Obligaciones Tributarias al día",
     pdfPath: "/documentos/CERTIFICADO.pdf",
   },
+  // Eliminado equipamiento profesional
   {
-    label: "Equipamiento profesional: camara 4K, dron, audio pro, suite de edicion",
-    pdfPath: "/documentos/equipos.pdf",
+    label: "Evidencia de capacidad técnica",
+    pdfPath: "/documentos/EvidenciadeCapacidadTécnica.pdf",
+  },
+  {
+    label: "Propuesta técnica",
+    pdfPath: "/documentos/Propuesta tecnica.pdf",
   },
 ];
 
-const photoCarousel = [
-  "/fotosavsi/Ismael%20con%20camara%20viaje.jpg",
-  "/fotosavsi/Ismael%20con%20camara%20viajes.jpg",
-  "/fotosavsi/Ismael%20con%20camara%20viajes-6.jpg",
-];
+import { fotosAvsi } from "../data/photoCatalog";
+
+
 
 const projects: Project[] = [
   {
@@ -228,14 +231,14 @@ const team = [
     role: "Productor y Director de Proyecto",
     experience: "Experiencia en estrategia, logistica y direccion de proyectos audiovisuales",
     image: "/equipo/Rogers.jpg",
-    pdfPath: "/documentos/CV%20Rogers%20Laverde%202026.pdf",
+    pdfPath: "/documentos/CVRogersLaverde.pdf",
   },
   {
     name: "Mario Salazar",
     role: "Jefe de Audio y Sonido",
     experience: "Experiencia en captura, mezcla y diseno sonoro para producciones audiovisuales",
     image: "/equipo/mario-salazar.jpg",
-    pdfPath: "/documentos/Mario%20Salazar-CV.pdf",
+    pdfPath: "/documentos/CVMarioSalazar.pdf",
   },
   {
     name: "Obed Briceno",
@@ -249,11 +252,22 @@ const team = [
     role: "Jefe de Video",
     experience: "Experiencia en realizacion, cobertura en territorio y flujo de produccion",
     image: "/equipo/ismael-pierre.jpg",
-    pdfPath: "/documentos/equipos.pdf",
+    pdfPath: "/documentos/cvismaelpierre.pdf",
   },
 ];
 
+
+
 export default function DocumentalPage() {
+  // Mezclar aleatoriamente un array (Fisher-Yates)
+  function mezclarAleatorio(array: readonly string[]): string[] {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
   const [activeProjectId, setActiveProjectId] = useState<number | null>(null);
   const [activePdf, setActivePdf] = useState<Accreditation | null>(null);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
@@ -264,6 +278,12 @@ export default function DocumentalPage() {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const photoItemRefs = useRef<Array<HTMLElement | null>>([]);
   const teamCueTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Carrusel AVSI aleatorio solo en cliente
+  const [photoCarousel, setPhotoCarousel] = useState<string[]>([...fotosAvsi]);
+  useEffect(() => {
+    setPhotoCarousel(mezclarAleatorio(fotosAvsi));
+  }, []);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -677,7 +697,7 @@ export default function DocumentalPage() {
                   <img
                     src={photo}
                     alt={`Foto de portafolio ${index + 1}`}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    className="h-full w-full object-contain bg-black transition duration-500 group-hover:scale-105"
                     loading="lazy"
                   />
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 py-3">
