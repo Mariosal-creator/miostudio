@@ -80,12 +80,24 @@ export default function ServiciosPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black px-0 sm:px-0">
       {/* HERO */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-black via-[#181818] to-[#232323] px-4 py-16 sm:px-6 lg:px-8 lg:py-24 border-b border-white/10">
-        <div className="pointer-events-none absolute inset-0 opacity-30">
+      <section className="relative overflow-hidden bg-gradient-to-b from-black/60 via-[#181818]/50 to-[#232323]/60 px-4 py-16 sm:px-6 lg:px-8 lg:py-24 border-b border-white/10">
+        {/* Video de fondo */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0 opacity-70 kenburns-video"
+          style={{ objectPosition: 'center' }}
+        >
+          <source src="/videobg/gen.mp4" type="video/mp4" />
+        </video>
+        {/* Degradados y overlays */}
+        <div className="pointer-events-none absolute inset-0 opacity-30 z-10">
           <div className="absolute -top-28 left-1/3 h-80 w-80 rounded-full bg-[#f20c0c]/30 blur-3xl" />
           <div className="absolute -bottom-20 right-0 h-72 w-72 rounded-full bg-white/20 blur-3xl" />
         </div>
-        <div className="relative mx-auto max-w-4xl text-center">
+        <div className="relative mx-auto max-w-4xl text-center z-20">
           <span className="inline-flex rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/90">
             Soluciones audiovisuales integrales
           </span>
