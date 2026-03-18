@@ -52,25 +52,21 @@ export default function ContactoPage() {
       nombre: "Linktree",
       descripcion: "Accede a todos nuestros enlaces, plataformas y canales desde un solo lugar",
       icon: (
-        <svg className="w-20 h-20 sm:w-24 sm:h-24" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M10.5 3h3v6.086l3.95-3.95 2.121 2.121-4.889 4.89H21v3h-6.318l4.889 4.889-2.121 2.122-3.95-3.95V24h-3v-5.939l-3.95 3.95-2.121-2.122 4.889-4.889H3v-3h6.318L4.429 7.257l2.121-2.121 3.95 3.95V3Z" />
-        </svg>
+        <img src="/linktree.svg" alt="Linktree" className="w-20 h-20 sm:w-24 sm:h-24" />
       ),
       url: "https://linktr.ee/moistudioec",
-      color: "from-lime-500 to-emerald-600",
-      hoverColor: "hover:from-lime-400 hover:to-emerald-500"
+      color: "from-white to-white",
+      hoverColor: "hover:from-gray-100 hover:to-gray-200"
     },
     {
       nombre: "Kick",
       descripcion: "Sigue nuestras transmisiones, sesiones en vivo y contenido en tiempo real",
       icon: (
-        <svg className="w-20 h-20 sm:w-24 sm:h-24" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M4 2h10v6h2l4-4v7l-4 4h4v7h-7v-4l-4 4H4V2Zm4 4v4h4V6H8Zm0 8v4h1.343L12 15.343V14H8Z" />
-        </svg>
+        <img src="/kick.svg" alt="Kick" className="w-20 h-20 sm:w-24 sm:h-24" />
       ),
       url: "https://kick.com/moistudio",
-      color: "from-green-400 to-lime-500",
-      hoverColor: "hover:from-green-300 hover:to-lime-400"
+      color: "from-neutral-900 to-neutral-800",
+      hoverColor: "hover:from-neutral-800 hover:to-neutral-700"
     }
   ];
 
@@ -190,10 +186,10 @@ export default function ContactoPage() {
             <button type="submit" className="mt-2 bg-[#f20c0c] hover:bg-[#c90a0a] text-white font-bold py-3 rounded-lg transition-colors">Enviar mensaje</button>
           </form>
           {/* Mapa */}
-          <div className="rounded-2xl overflow-hidden border border-white/10 shadow-lg min-h-[350px]">
+          <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl min-h-[350px] bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all duration-500">
             <iframe
               title="Ubicación Moi Studio"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d997.123456789!2d-79.204824!3d-2.204824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902d6d1b1234567%3A0x123456789abcdef!2sMoi%20Studio!5e0!3m2!1ses-419!2sec!4v1700000000000!5m2!1ses-419!2sec"
+              src="https://www.google.com/maps?q=-0.077556,-78.440667&hl=es&z=16&output=embed"
               width="100%"
               height="350"
               style={{ border: 0 }}
