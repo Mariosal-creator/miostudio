@@ -57,13 +57,23 @@ const modaPhotos = walkImages("studio/moda")
   .map((x) => x.url);
 const gastronomiaPhotos = listImages("gastronomia");
 
+// Fotos AVSI desde public/fotosavsi
+const fotosAvsiDir = path.join(root, "public", "fotosavsi");
+const fotosAvsi = fs.existsSync(fotosAvsiDir)
+  ? fs.readdirSync(fotosAvsiDir)
+      .filter((f) => [".jpg", ".jpeg", ".png", ".webp", ".avif"].includes(path.extname(f).toLowerCase()))
+      .sort((a, b) => a.localeCompare(b, "es", { numeric: true }))
+      .map((f) => `/fotosavsi/${encodeURIComponent(f)}`)
+  : [];
+
 const ts =
   `export const bodaPhotos = ${JSON.stringify(bodaPhotos, null, 2)} as const;\n\n` +
   `export const convencionPhotos = ${JSON.stringify(convencionPhotos, null, 2)} as const;\n\n` +
   `export const graduacionPhotos = ${JSON.stringify(graduacionPhotos, null, 2)} as const;\n\n` +
   `export const studioPhotos = ${JSON.stringify(studioPhotos, null, 2)} as const;\n\n` +
   `export const modaPhotos = ${JSON.stringify(modaPhotos, null, 2)} as const;\n\n` +
-  `export const gastronomiaPhotos = ${JSON.stringify(gastronomiaPhotos, null, 2)} as const;\n`;
+  `export const gastronomiaPhotos = ${JSON.stringify(gastronomiaPhotos, null, 2)} as const;\n\n` +
+  `export const fotosAvsi = ${JSON.stringify(fotosAvsi, null, 2)} as const;\n`;
 
 const out = path.join(root, "app", "data", "photoCatalog.ts");
 fs.mkdirSync(path.dirname(out), { recursive: true });

@@ -184,15 +184,7 @@ export default function NuestroEquipoPage() {
                 <h2 className="text-lg font-semibold text-white sm:text-xl">{integrante.nombre}</h2>
                 <p className="mt-1 text-sm font-medium text-[#f20c0c]">{integrante.cargo}</p>
                 <p className="mt-2 text-sm text-gray-300">{integrante.descripcion}</p>
-                {integrante.id === "ismael" && (
-                  <button
-                    type="button"
-                    onClick={() => abrirModal("/documentos/cvismaelpierre.pdf", integrante.nombre, integrante.id)}
-                    className="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-full border border-[#f20c0c] bg-transparent px-4 py-2.5 text-sm font-semibold text-[#f20c0c] hover:bg-[#f20c0c] hover:text-white transition"
-                  >
-                    Ver CV
-                  </button>
-                )}
+                {/* Botón 'Ver CV' eliminado para Ismael Pierre */}
               </div>
               <a
                 href={integrante.whatsapp}
