@@ -94,7 +94,7 @@ const accreditations: Accreditation[] = [
   },
   {
     label: "Propuesta técnica",
-    pdfPath: "/documentos/Propuesta tecnica.pdf",
+    pdfPath: "/documentos/PropuestaTecnicaProyecto.pdf",
   },
 ];
 
